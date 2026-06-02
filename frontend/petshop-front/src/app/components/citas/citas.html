@@ -1,0 +1,90 @@
+<div style="padding: 20px; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
+  
+  <h2 style="text-align: center; color: #333; margin-bottom: 30px; font-size: 2rem;">
+    {{ editando ? 'Modificar Cita' : (soloLectura ? 'Listado de Citas Programadas' : 'Gestión de Agendamiento') }}
+  </h2>
+
+  <div style="display: flex; justify-content: center; width: 100%;">
+    
+    <div *ngIf="!soloLectura || editando" style="width: 100%; max-width: 500px; background: #ffffff; padding: 30px; border-radius: 15px; border: 1px solid #e0e0e0; box-shadow: 0 10px 25px rgba(0,0,0,0.05);">
+      <h3 style="margin-top: 0; color: #007bff; margin-bottom: 20px; text-align: center;">
+        {{ editando ? 'Editando Datos de Cita' : 'Nueva Cita Médica' }}
+      </h3>
+      
+      <form (ngSubmit)="guardar()">
+        <div style="margin-bottom: 15px;">
+          <label style="display: block; margin-bottom: 8px; font-weight: 600; color: #444;">Paciente:</label>
+          <input type="text" [(ngModel)]="nuevaCita.nombrePaciente" name="nombrePaciente" required style="width: 100%; padding: 12px; border: 1px solid #ced4da; border-radius: 8px; box-sizing: border-box;">
+        </div>
+        <div style="margin-bottom: 15px;">
+          <label style="display: block; margin-bottom: 8px; font-weight: 600; color: #444;">Correo Electrónico:</label>
+          <input type="email" [(ngModel)]="nuevaCita.correo" name="correo" placeholder="usuario@gmail.com" required style="width: 100%; padding: 12px; border: 1px solid #ced4da; border-radius: 8px; box-sizing: border-box;">
+        </div>
+        <div style="margin-bottom: 15px;">
+          <label style="display: block; margin-bottom: 8px; font-weight: 600; color: #444;">Tratamiento:</label>
+          <select [(ngModel)]="nuevaCita.tratamiento" name="tratamiento" required style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid #ced4da; background-color: white; width: 100%;">
+            <option value="limpieza dental">Limpieza dental</option>
+            <option value="ortodoncia">Ortodoncia</option>
+            <option value="blanquiamiento">Blanquiamiento</option>
+          </select>
+        </div>
+        <div style="display: flex; gap: 15px; margin-bottom: 25px;">
+          <div style="flex: 1;">
+            <label style="display: block; margin-bottom: 8px; font-weight: 600; color: #444;">Fecha:</label>
+            <input type="date" [(ngModel)]="nuevaCita.fecha" name="fecha" required style="width: 100%; padding: 12px; border: 1px solid #ced4da; border-radius: 8px;">
+          </div>
+          <div style="flex: 1;">
+            <label style="display: block; margin-bottom: 8px; font-weight: 600; color: #444;">Hora:</label>
+            <input type="time" [(ngModel)]="nuevaCita.hora" name="hora" required style="width: 100%; padding: 12px; border: 1px solid #ced4da; border-radius: 8px;">
+          </div>
+        </div>
+
+        <button type="submit" style="background: #007bff; color: white; border: none; padding: 15px; cursor: pointer; border-radius: 8px; width: 100%; font-weight: bold; font-size: 1.1rem;">
+          {{ editando ? 'GUARDAR CAMBIOS' : 'CONFIRMAR AGENDAMIENTO' }}
+        </button>
+
+        <button *ngIf="editando" type="button" (click)="resetearFormulario()" style="background: #6c757d; color: white; border: none; padding: 12px; border-radius: 8px; width: 100%; margin-top: 10px; cursor: pointer; font-weight: bold;">
+          CANCELAR EDICIÓN
+        </button>
+      </form>
+    </div>
+
+    <div *ngIf="soloLectura && !editando" style="width: 100%; max-width: 900px; background: white; padding: 30px; border-radius: 15px; border: 1px solid #e0e0e0; box-shadow: 0 10px 25px rgba(0,0,0,0.05);">
+      <table *ngIf="citas.length > 0; else sinCitas" style="width: 100%; border-collapse: collapse;">
+        <thead>
+          <tr style="background: #f8f9fa; border-bottom: 2px solid #dee2e6;">
+            <th style="padding: 15px; text-align: left;">Paciente</th>
+            <th style="padding: 15px; text-align: left;">Tratamiento</th>
+            <th style="padding: 15px; text-align: left;">Fecha/Hora</th>
+            <th style="padding: 15px; text-align: center;">Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let cita of citas" style="border-bottom: 1px solid #eee;">
+            <td style="padding: 15px;">{{ cita.nombrePaciente }}</td>
+            <td style="padding: 15px;">{{ cita.tratamiento }}</td>
+            <td style="padding: 15px;">{{ cita.fecha }} a las {{ cita.hora }}</td>
+            <td style="padding: 15px; text-align: center; display: flex; gap: 8px; justify-content: center;">
+              <button (click)="editar(cita)" style="background: #ffc107; color: black; border: none; padding: 8px 12px; cursor: pointer; border-radius: 6px; font-weight: 500;">
+                Editar
+              </button>
+              <button (click)="eliminar(cita.id)" style="background: #dc3545; color: white; border: none; padding: 8px 12px; cursor: pointer; border-radius: 6px; font-weight: 500;">
+                Eliminar
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <ng-template #sinCitas>
+        <p style="text-align: center; padding: 40px; color: #999;">No hay citas registradas.</p>
+      </ng-template>
+    </div>
+
+  </div>
+  
+  <div style="text-align: center; margin-top: 40px;">
+    <button (click)="irAMenu()" style="background: #6c757d; color: white; border: none; padding: 12px 25px; border-radius: 8px; cursor: pointer; font-weight: 600;">
+      ← Volver al Panel Principal
+    </button>
+  </div>
+</div>
