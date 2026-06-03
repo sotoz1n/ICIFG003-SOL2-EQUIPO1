@@ -1,0 +1,74 @@
+<header class="petshop-header">
+  <div class="header-container">
+    <div class="logo-area">
+      <img src="https://static.vecteezy.com/system/resources/previews/015/693/563/non_2x/dog-and-cat-logo-for-pet-shop-vector.jpg" alt="Logo PetShop Online" class="shop-logo">
+      <h1>PetShop Online</h1>
+    </div>
+    <p class="tagline">Vocación por la excelencia en el cuidado de tu mascota</p>
+  </div>
+</header>
+
+<nav class="petshop-nav">
+  <ul>
+    <li><a href="#" class="active">Inicio</a></li>
+    <li><a href="#">Catálogo</a></li>
+    <li><a href="#">Contacto</a></li>
+  </ul>
+</nav>
+
+<div class="cart-summary-bar" *ngIf="cantidadCarrito > 0">
+  <div class="cart-bar-content">
+    <span>🛒 Carrito de Compras: <strong>{{ cantidadCarrito }}</strong> productos añadidos</span>
+    <span>Total estimado: <strong>${{ totalPrecio | number:'1.0-0' }}</strong></span>
+  </div>
+</div>
+
+<main class="main-layout">
+  
+  <section class="products-section">
+    <h2>Productos Destacados</h2>
+    
+    <div class="filter-container">
+      <label for="category-filter">Filtrar por Categoría: </label>
+      <select id="category-filter" class="category-select" [(ngModel)]="categoriaSeleccionada">
+        <option value="todos">Todos</option>
+        <option value="perros">Perros</option>
+        <option value="gatos">Gatos</option>
+        <option value="accesorios">Accesorios</option>
+      </select>
+    </div>
+
+    <div class="products-grid">
+      
+      <article class="product-card" *ngFor="let producto of productosFiltrados">
+        <img [src]="producto.imagen" [alt]="producto.nombre" class="product-img">
+        <div class="card-body">
+          <h3>{{ producto.nombre }}</h3>
+          <p class="category-tag">{{ producto.categoria }}</p>
+          <p class="price">{{ producto.precioFormateado }}</p>
+          <button class="btn-add-cart" (click)="agregarAlCarrito(producto.precio)">Agregar al carrito</button>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+  <aside class="promo-sidebar">
+    <div class="promo-box">
+      <h3>Promociones del Mes</h3>
+      <ul>
+        <li>Descuento del 20% en alimentos para perros.</li>
+        <li>Oferta especial los dias lunes en productos para gatos.</li>
+      </ul>
+    </div>
+  </aside>
+
+</main>
+
+<footer class="petshop-footer">
+  <div class="footer-content">
+    <p><strong>Contacto:</strong> Soporte PetShop Online</p>
+    <p>Correo electrónico: contacto&#64;petshoponline.cl | Teléfono: +56 9 8765 4321</p>
+    <p class="copyright">&copy; 2026 Universidad San Sebastián. Documento de Evaluación Taller Web.</p>
+  </div>
+</footer>

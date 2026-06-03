@@ -1,0 +1,28 @@
+<section class="form-container">
+  <div class="form-box">
+    <h2 style="text-align:center; color:#007acc;">
+      {{ esLogin ? 'Acceso Proyecto 2' : 'Crear Cuenta' }}
+    </h2>
+    
+    <form (submit)="onEnviar()" class="form">
+      <label>Usuario:</label>
+      <input type="text" [(ngModel)]="usuario.username" name="username" placeholder="Ingrese su usuario" required>
+      
+      <label>Contraseña:</label>
+      <input type="password" [(ngModel)]="usuario.password" name="password" placeholder="Ingrese su contraseña" required>
+      
+      <button type="submit" class="btn">
+        {{ esLogin ? 'Entrar' : 'Registrarse' }}
+      </button>
+    </form>
+
+    <div class="switch-form">
+      <p>
+        {{ esLogin ? '¿No tienes cuenta?' : '¿Ya tienes cuenta?' }}
+        <a href="javascript:void(0)" (click)="cambiarModo()">
+          {{ esLogin ? 'Regístrate aquí' : 'Inicia sesión' }}
+        </a>
+      </p>
+    </div>
+  </div>
+</section>
