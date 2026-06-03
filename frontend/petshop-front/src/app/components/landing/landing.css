@@ -302,3 +302,94 @@
   align-items: center;
   font-size: 1.05rem;
 }
+/* --- Formulario de Contacto RF05 --- */
+.contact-section {
+  grid-column: 1 / -1; /* Ocupa todo el ancho del CSS Grid principal */
+  background-color: #ffffff;
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  margin-top: 40px;
+}
+
+.contact-subtitle {
+  color: #7f8c8d;
+  margin-bottom: 25px;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: #2c3e50;
+}
+
+.form-control {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #bdc3c7;
+  border-radius: 4px;
+  font-family: inherit;
+  font-size: 1rem;
+  box-sizing: border-box;
+  transition: border-color 0.2s ease-in-out;
+}
+
+.form-control:focus {
+  outline: none;
+  border-color: #3498db;
+}
+
+/* Estado inválido dinámico */
+.form-control.is-invalid {
+  border-color: #e74c3c;
+  background-color: #fdf2f2;
+}
+
+.error-message {
+  color: #e74c3c;
+  font-size: 0.875rem;
+  margin-top: 6px;
+  font-weight: 500;
+}
+
+.alert-success {
+  background-color: #d4edda;
+  color: #155724;
+  border: 1px solid #c3e6cb;
+  padding: 15px;
+  border-radius: 4px;
+  margin-bottom: 20px;
+  font-weight: 500;
+}
+
+.btn-submit {
+  background-color: #3498db;
+  color: #ffffff;
+  border: none;
+  padding: 12px 30px;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.btn-submit:hover {
+  background-color: #2980b9;
+}
+
+/* Soporte responsive en pantallas móviles para el formulario */
+@media (max-width: 767px) {
+  .contact-section {
+    padding: 20px;
+  }
+  
+  .btn-submit {
+    width: 100%;
+  }
+}

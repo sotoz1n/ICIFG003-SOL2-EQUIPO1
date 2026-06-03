@@ -57,18 +57,63 @@
     <div class="promo-box">
       <h3>Promociones del Mes</h3>
       <ul>
-        <li>Descuento del 20% en alimentos para perros.</li>
-        <li>Oferta especial los dias lunes en productos para gatos.</li>
+        <li>Descuento del 20% en alimentos de prescripción médica.</li>
+        <li>Peluquería canina con 15% de descuento los días martes.</li>
       </ul>
     </div>
   </aside>
+
+  <section class="contact-section">
+    <h2>Formulario de Contacto</h2>
+    <p class="contact-subtitle">¿Tienes dudas o necesitas asesoría personalizada? Escríbenos.</p>
+
+    <div class="alert-success" *ngIf="formularioEnviadoExitosamente">
+      ¡Mensaje enviado con éxito! Nos pondremos en contacto a la brevedad.
+    </div>
+
+    <form [formGroup]="contactoForm" (ngSubmit)="enviarFormulario()" novalidate>
+      
+      <div class="form-group">
+        <label for="nombre">Nombre Completo:</label>
+        <input type="text" id="nombre" formControlName="nombre" class="form-control" [ngClass]="{'is-invalid': contactoForm.get('nombre')?.touched && contactoForm.get('nombre')?.invalid}">
+        <div class="error-message" *ngIf="contactoForm.get('nombre')?.touched && contactoForm.get('nombre')?.hasError('required')">
+          El nombre completo es obligatorio.
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="correo">Correo Electrónico:</label>
+        <input type="email" id="correo" formControlName="correo" class="form-control" [ngClass]="{'is-invalid': contactoForm.get('correo')?.touched && contactoForm.get('correo')?.invalid}">
+        <div class="error-message" *ngIf="contactoForm.get('correo')?.touched && contactoForm.get('correo')?.hasError('required')">
+          El correo electrónico es obligatorio.
+        </div>
+        <div class="error-message" *ngIf="contactoForm.get('correo')?.touched && contactoForm.get('correo')?.hasError('email')">
+          Por favor, introduce una dirección de correo válida.
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="mensaje">Mensaje o Comentario:</label>
+        <textarea id="mensaje" formControlName="mensaje" rows="5" class="form-control" [ngClass]="{'is-invalid': contactoForm.get('mensaje')?.touched && contactoForm.get('mensaje')?.invalid}"></textarea>
+        <div class="error-message" *ngIf="contactoForm.get('mensaje')?.touched && contactoForm.get('mensaje')?.hasError('required')">
+          El mensaje es obligatorio.
+        </div>
+        <div class="error-message" *ngIf="contactoForm.get('mensaje')?.touched && contactoForm.get('mensaje')?.hasError('minlength')">
+          El mensaje debe contener al menos 20 caracteres (llevas {{ contactoForm.get('mensaje')?.value?.length || 0 }} de 20 requeridos).
+        </div>
+      </div>
+
+      <button type="submit" class="btn-submit">Enviar Mensaje</button>
+
+    </form>
+  </section>
 
 </main>
 
 <footer class="petshop-footer">
   <div class="footer-content">
     <p><strong>Contacto:</strong> Soporte PetShop Online</p>
-    <p>Correo electrónico: contacto&#64;petshoponline.cl | Teléfono: +56 9 8765 4321</p>
-    <p class="copyright">&copy; 2026 Universidad San Sebastián. Documento de Evaluación Taller Web.</p>
+    <p>Correo electrónico: contacto&#64;petshoponline.cl | Teléfono: +56 9 1234 5678</p>
+    <p class="copyright">&copy; 2026 Universidad San Sebastián</p>
   </div>
 </footer>
