@@ -55,7 +55,7 @@
     </ul>
     <div class="cart-panel-footer">
       <span>Total neto a pagar: <strong>${{ totalPrecio | number:'1.0-0' }}</strong></span>
-      <button class="btn-checkout" (click)="simularCompra(); $event.stopPropagation()">Finalizar Compra</button>
+      <button class="btn-checkout" (click)="finalizarCompraReal(); $event.stopPropagation()">Finalizar Compra</button>
     </div>
   </section>
 

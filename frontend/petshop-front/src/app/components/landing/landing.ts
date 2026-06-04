@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule, FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
+import Swal from 'sweetalert2';
 
 interface Producto {
   id: number;
@@ -20,7 +22,7 @@ interface ItemCarrito {
 @Component({
   selector: 'app-landing',
   standalone: true,
-  imports: [CommonModule, FormsModule, ReactiveFormsModule],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, HttpClientModule],
   templateUrl: './landing.html',
   styleUrl: './landing.css'
 })
@@ -60,7 +62,7 @@ export class LandingComponent {
     }
   ];
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder, private http: HttpClient) {
     this.contactoForm = this.fb.group({
       nombre: ['', [Validators.required]],
       correo: ['', [Validators.required, Validators.email]],
@@ -124,14 +126,9 @@ export class LandingComponent {
     }
   }
 
-  // RF04 Sanitizado: Elimina cualquier letra o carácter no numérico de forma inmediata
   actualizarCantidadDirecta(producto: Producto, event: Event): void {
     const inputElement = event.target as HTMLInputElement;
-    
-    // Aplicamos una expresión regular para remover todo lo que NO sea un número del 0 al 9
     const valorLimpio = inputElement.value.replace(/[^0-9]/g, '');
-    
-    // Seteamos el valor limpio directamente en el elemento visual
     inputElement.value = valorLimpio;
 
     if (valorLimpio === '') {
@@ -165,10 +162,44 @@ export class LandingComponent {
     }
   }
 
-  simularCompra(): void {
-    alert('¡Compra realizada con éxito! Su pedido está siendo procesado en el Frontend.');
-    this.carritoProductos = [];
-    this.mostrarDetalleCarrito = false;
+  finalizarCompraReal(): void {
+    const payloadPedido = {
+      total: this.totalPrecio,
+      items: this.carritoAgrupado.map(item => ({
+        productoId: item.producto.id,
+        nombre: item.producto.nombre,
+        cantidad: item.cantidad,
+        subtotal: item.subtotal
+      }))
+    };
+
+    const urlBackend = 'http://localhost:8080/api/carrito';
+
+    this.http.post(urlBackend, payloadPedido).subscribe({
+      next: (response: any) => {
+        // CORREGIDO: Reemplazo por un modal estético y profesional de SweetAlert2
+        Swal.fire({
+          title: '¡Compra Procesada!',
+          text: 'Tu orden de compra ha sido registrada con éxito.',
+          icon: 'success',
+          confirmButtonColor: '#2ecc71',
+          confirmButtonText: 'Entendido'
+        });
+        
+        this.carritoProductos = [];
+        this.mostrarDetalleCarrito = false;
+      },
+      error: (err) => {
+        console.error('Error de comunicación con el backend:', err);
+        Swal.fire({
+          title: 'Error de Conexión',
+          text: 'No se pudo establecer comunicación con el servidor de Spring Boot.',
+          icon: 'error',
+          confirmButtonColor: '#e74c3c',
+          confirmButtonText: 'Reintentar'
+        });
+      }
+    });
   }
 
   enviarFormulario(): void {
