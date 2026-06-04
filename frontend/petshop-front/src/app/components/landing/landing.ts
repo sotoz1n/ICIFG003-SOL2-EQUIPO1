@@ -11,6 +11,12 @@ interface Producto {
   imagen: string;
 }
 
+interface ItemCarrito {
+  producto: Producto;
+  cantidad: number;
+  subtotal: number;
+}
+
 @Component({
   selector: 'app-landing',
   standalone: true,
@@ -20,8 +26,9 @@ interface Producto {
 })
 export class LandingComponent {
   categoriaSeleccionada: string = 'todos';
-  cantidadCarrito: number = 0;
-  totalPrecio: number = 0;
+  
+  carritoProductos: Producto[] = [];
+  mostrarDetalleCarrito: boolean = false;
   
   contactoForm: FormGroup;
   formularioEnviadoExitosamente: boolean = false;
@@ -61,6 +68,14 @@ export class LandingComponent {
     });
   }
 
+  get cantidadCarrito(): number {
+    return this.carritoProductos.length;
+  }
+
+  get totalPrecio(): number {
+    return this.carritoProductos.reduce((acumulado, p) => acumulado + p.precio, 0);
+  }
+
   get productosFiltrados(): Producto[] {
     if (this.categoriaSeleccionada === 'todos') {
       return this.productos;
@@ -68,9 +83,92 @@ export class LandingComponent {
     return this.productos.filter(p => p.categoria === this.categoriaSeleccionada);
   }
 
-  agregarAlCarrito(precio: number): void {
-    this.cantidadCarrito++;
-    this.totalPrecio += precio;
+  get carritoAgrupado(): ItemCarrito[] {
+    const grupos: { [key: number]: ItemCarrito } = {};
+
+    this.carritoProductos.forEach(producto => {
+      if (grupos[producto.id]) {
+        grupos[producto.id].cantidad++;
+        grupos[producto.id].subtotal += producto.precio;
+      } else {
+        grupos[producto.id] = {
+          producto: producto,
+          cantidad: 1,
+          subtotal: producto.precio
+        };
+      }
+    });
+
+    return Object.values(grupos);
+  }
+
+  trackByProductoId(index: number, item: ItemCarrito): number {
+    return item.producto.id;
+  }
+
+  agregarAlCarrito(producto: Producto): void {
+    this.carritoProductos.push(producto);
+  }
+
+  incrementarCantidad(producto: Producto): void {
+    this.carritoProductos.push(producto);
+  }
+
+  decrementarCantidad(productoId: number): void {
+    const index = this.carritoProductos.findIndex(p => p.id === productoId);
+    if (index !== -1) {
+      this.carritoProductos.splice(index, 1);
+    }
+    if (this.carritoProductos.length === 0) {
+      this.mostrarDetalleCarrito = false;
+    }
+  }
+
+  // RF04 Sanitizado: Elimina cualquier letra o carácter no numérico de forma inmediata
+  actualizarCantidadDirecta(producto: Producto, event: Event): void {
+    const inputElement = event.target as HTMLInputElement;
+    
+    // Aplicamos una expresión regular para remover todo lo que NO sea un número del 0 al 9
+    const valorLimpio = inputElement.value.replace(/[^0-9]/g, '');
+    
+    // Seteamos el valor limpio directamente en el elemento visual
+    inputElement.value = valorLimpio;
+
+    if (valorLimpio === '') {
+      return;
+    }
+
+    let nuevaCantidad = parseInt(valorLimpio, 10);
+
+    if (isNaN(nuevaCantidad) || nuevaCantidad < 1) {
+      nuevaCantidad = 1;
+      inputElement.value = '1';
+    }
+
+    this.carritoProductos = this.carritoProductos.filter(p => p.id !== producto.id);
+
+    for (let i = 0; i < nuevaCantidad; i++) {
+      this.carritoProductos.push(producto);
+    }
+  }
+
+  eliminarGrupoDelCarrito(productoId: number): void {
+    this.carritoProductos = this.carritoProductos.filter(p => p.id !== productoId);
+    if (this.carritoProductos.length === 0) {
+      this.mostrarDetalleCarrito = false;
+    }
+  }
+
+  toggleCarrito(): void {
+    if (this.carritoProductos.length > 0) {
+      this.mostrarDetalleCarrito = !this.mostrarDetalleCarrito;
+    }
+  }
+
+  simularCompra(): void {
+    alert('¡Compra realizada con éxito! Su pedido está siendo procesado en el Frontend.');
+    this.carritoProductos = [];
+    this.mostrarDetalleCarrito = false;
   }
 
   enviarFormulario(): void {

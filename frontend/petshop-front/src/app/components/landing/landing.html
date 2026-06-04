@@ -12,19 +12,53 @@
   <ul>
     <li><a href="#" class="active">Inicio</a></li>
     <li><a href="#">Catálogo</a></li>
-    <li><a href="#">Contacto</a></li>
+    <li><a href="#seccion-contacto">Contacto</a></li>
   </ul>
 </nav>
 
-<div class="cart-summary-bar" *ngIf="cantidadCarrito > 0">
+<div class="cart-summary-bar" *ngIf="cantidadCarrito > 0" (click)="toggleCarrito()" style="cursor: pointer;">
   <div class="cart-bar-content">
-    <span>🛒 Carrito de Compras: <strong>{{ cantidadCarrito }}</strong> productos añadidos</span>
+    <span>🛒 Carrito de Compras: <strong>{{ cantidadCarrito }}</strong> productos añadidos (Haz clic aquí para ver detalle)</span>
     <span>Total estimado: <strong>${{ totalPrecio | number:'1.0-0' }}</strong></span>
   </div>
 </div>
 
 <main class="main-layout">
   
+  <section class="cart-detail-panel" *ngIf="mostrarDetalleCarrito && cantidadCarrito > 0" (click)="$event.stopPropagation()">
+    <h3>Detalle de tus productos añadidos</h3>
+    <ul class="cart-items-list">
+      <li *ngFor="let item of carritoAgrupado; trackBy: trackByProductoId">
+        <span class="item-name">
+          {{ item.producto.nombre }}
+        </span>
+        
+        <div class="item-actions">
+          <div class="quantity-controls" (click)="$event.stopPropagation()">
+            <button class="btn-qty" (click)="decrementarCantidad(item.producto.id); $event.stopPropagation()">-</button>
+            
+            <input 
+              type="text" 
+              class="qty-input-field" 
+              [value]="item.cantidad" 
+              (input)="actualizarCantidadDirecta(item.producto, $event)"
+              (click)="$event.stopPropagation()"
+              inputmode="numeric">
+              
+            <button class="btn-qty" (click)="incrementarCantidad(item.producto); $event.stopPropagation()">+</button>
+          </div>
+          
+          <span class="item-price">${{ item.subtotal | number:'1.0-0' }}</span>
+          <button class="btn-remove-item" (click)="eliminarGrupoDelCarrito(item.producto.id); $event.stopPropagation()" title="Quitar todos">Quitar</button>
+        </div>
+      </li>
+    </ul>
+    <div class="cart-panel-footer">
+      <span>Total neto a pagar: <strong>${{ totalPrecio | number:'1.0-0' }}</strong></span>
+      <button class="btn-checkout" (click)="simularCompra(); $event.stopPropagation()">Finalizar Compra</button>
+    </div>
+  </section>
+
   <section class="products-section">
     <h2>Productos Destacados</h2>
     
@@ -45,8 +79,8 @@
         <div class="card-body">
           <h3>{{ producto.nombre }}</h3>
           <p class="category-tag">{{ producto.categoria }}</p>
-          <p class="price">{{ producto.precioFormateado }}</p>
-          <button class="btn-add-cart" (click)="agregarAlCarrito(producto.precio)">Agregar al carrito</button>
+          <p class="price">{{ producto.precioFormateated }}</p>
+          <button class="btn-add-cart" (click)="agregarAlCarrito(producto)">Agregar al carrito</button>
         </div>
       </article>
 
@@ -63,7 +97,7 @@
     </div>
   </aside>
 
-  <section class="contact-section">
+  <section id="seccion-contacto" class="contact-section">
     <h2>Formulario de Contacto</h2>
     <p class="contact-subtitle">¿Tienes dudas o necesitas asesoría personalizada? Escríbenos.</p>
 
@@ -113,7 +147,7 @@
 <footer class="petshop-footer">
   <div class="footer-content">
     <p><strong>Contacto:</strong> Soporte PetShop Online</p>
-    <p>Correo electrónico: contacto&#64;petshoponline.cl | Teléfono: +56 9 1234 5678</p>
-    <p class="copyright">&copy; 2026 Universidad San Sebastián</p>
+    <p>Correo electrónico: contacto&#64;petshoponline.cl | Teléfono: +56 9 8765 4321</p>
+    <p class="copyright">&copy; 2026 Universidad San Sebastián. Documento de Evaluación Taller Web.</p>
   </div>
 </footer>
