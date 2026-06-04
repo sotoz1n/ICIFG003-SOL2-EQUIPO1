@@ -17,11 +17,35 @@ public class Carrito {
     @JoinColumn(name = "id_cliente", nullable = false)
     private Cliente cliente;
 
-    @PrePersist // Esto asigna la fecha actual automáticamente antes de guardar
+    @PrePersist
     public void prePersist() {
         this.fechaCreacion = LocalDateTime.now();
     }
 
     public Carrito() {}
-    // TODO: Generar Getters y Setters con STS
+
+    // Getters y Setters obligatorios para el funcionamiento del controlador
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public LocalDateTime getFechaCreacion() {
+        return fechaCreacion;
+    }
+
+    public void setFechaCreacion(LocalDateTime fechaCreacion) {
+        this.fechaCreacion = fechaCreacion;
+    }
+
+    public Cliente getCliente() {
+        return cliente;
+    }
+
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
+    }
 }

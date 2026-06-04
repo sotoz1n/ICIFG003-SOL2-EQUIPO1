@@ -1,7 +1,7 @@
 package com.equipo1.petshop.entity;
 
 import jakarta.persistence.*;
-import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @Table(name = "cliente")
@@ -11,26 +11,34 @@ public class Cliente {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(nullable = false, unique = true, length = 12)
-    private String rut;
-
-    @Column(nullable = false, length = 100)
     private String nombre;
-
-    @Column(nullable = false, length = 100)
-    private String apellido;
-
-    @Column(length = 150)
     private String correo;
 
-    @Column(length = 20)
-    private String telefono;
-
-    @Column(length = 200)
-    private String direccion;
-
-    private LocalDate fechaRegistro;
-
+    // Constructor vacío obligatorio para JPA
     public Cliente() {}
-    // TODO: Generar Getters y Setters con STS
+
+    // Getters y Setters
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public String getCorreo() {
+        return correo;
+    }
+
+    public void setCorreo(String correo) {
+        this.correo = correo;
+    }
 }
