@@ -14,6 +14,11 @@ export class ApiService {
     return this.http.get<any[]>(this.url);
   }
 
+  // AGREGA ESTE MÉTODO PARA CONECTAR AL BACKEND DE PRODUCTOS
+  obtenerProductos(): Observable<any[]> {
+    return this.http.get<any[]>('http://localhost:8080/api/productos');
+  }
+
   agendarCita(cita: any): Observable<any> {
     return this.http.post<any>(this.url, cita);
   }

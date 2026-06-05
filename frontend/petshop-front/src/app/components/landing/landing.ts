@@ -1,8 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule, FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import Swal from 'sweetalert2';
+import { ApiService } from '../../services/api'; // El puente a tu backend
 
 interface Producto {
   id: number;
@@ -26,7 +27,7 @@ interface ItemCarrito {
   templateUrl: './landing.html',
   styleUrl: './landing.css'
 })
-export class LandingComponent {
+export class LandingComponent implements OnInit {
   categoriaSeleccionada: string = 'todos';
   
   carritoProductos: Producto[] = [];
@@ -35,38 +36,41 @@ export class LandingComponent {
   contactoForm: FormGroup;
   formularioEnviadoExitosamente: boolean = false;
 
-  productos: Producto[] = [
-    {
-      id: 1,
-      nombre: 'Alimento Premium',
-      categoria: 'perros',
-      precio: 18990,
-      precioFormateated: '$18.990',
-      imagen: 'https://purina.cl/sites/default/files/2026-03/6619b101707389517644bc146067c0206f8883e0.webp'
-    },
-    {
-      id: 2,
-      nombre: 'Correa Retráctil',
-      categoria: 'accesorios',
-      precio: 12990,
-      precioFormateated: '$12.990',
-      imagen: 'https://www.clubdeperrosygatos.cl/wp-content/uploads/2024/08/neon.webp'
-    },
-    {
-      id: 3,
-      nombre: 'Rascador Interactivo',
-      categoria: 'gatos',
-      precio: 24990,
-      precioFormateated: '$24.990',
-      imagen: 'https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?w=500'
-    }
-  ];
+  // Lista vacía lista para recibir tus datos de PostgreSQL
+  productos: Producto[] = [];
 
-  constructor(private fb: FormBuilder, private http: HttpClient) {
+  // Inyectamos tu ApiService aquí
+  constructor(private fb: FormBuilder, private http: HttpClient, private apiService: ApiService) {
     this.contactoForm = this.fb.group({
       nombre: ['', [Validators.required]],
       correo: ['', [Validators.required, Validators.email]],
       mensaje: ['', [Validators.required, Validators.minLength(20)]]
+    });
+  }
+
+  // Apenas cargue la página, va a buscar tus datos
+  ngOnInit(): void {
+    this.cargarProductos();
+  }
+
+  // La magia que conecta con tu Spring Boot
+  cargarProductos(): void {
+    this.apiService.obtenerProductos().subscribe({
+      next: (data) => {
+        this.productos = data.map((item: any) => ({
+          id: item.id,
+          nombre: item.nombre,
+          // Extraemos el nombre de la categoría o le ponemos 'otros'
+          categoria: item.categoria ? item.categoria.nombreCategoria.toLowerCase() : 'otros',
+          precio: item.precio,
+          precioFormateated: '$' + item.precio.toLocaleString('es-CL'),
+          imagen: item.imagen || 'https://via.placeholder.com/150'
+        }));
+        console.log('¡Productos cargados desde Spring Boot!', this.productos);
+      },
+      error: (err) => {
+        console.error('Pucha, error al conectar con el backend:', err);
+      }
     });
   }
 
@@ -177,7 +181,6 @@ export class LandingComponent {
 
     this.http.post(urlBackend, payloadPedido).subscribe({
       next: (response: any) => {
-        // CORREGIDO: Reemplazo por un modal estético y profesional de SweetAlert2
         Swal.fire({
           title: '¡Compra Procesada!',
           text: 'Tu orden de compra ha sido registrada con éxito.',
