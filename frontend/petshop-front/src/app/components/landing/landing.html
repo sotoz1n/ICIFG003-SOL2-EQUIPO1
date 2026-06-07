@@ -1,68 +1,13 @@
-<header class="petshop-header">
-  <div class="header-container">
-    <div class="logo-area">
-      <img src="https://static.vecteezy.com/system/resources/previews/015/693/563/non_2x/dog-and-cat-logo-for-pet-shop-vector.jpg" alt="Logo PetShop Online" class="shop-logo">
-      <h1>PetShop Online</h1>
-    </div>
-    <p class="tagline">Vocación por la excelencia en el cuidado de tu mascota</p>
-  </div>
-</header>
+<app-menu></app-menu>
 
-<nav class="petshop-nav">
-  <ul>
-    <li><a href="#" class="active">Inicio</a></li>
-    <li><a href="#">Catálogo</a></li>
-    <li><a href="#seccion-contacto">Contacto</a></li>
-  </ul>
-</nav>
+<main class="layout-principal">
 
-<div class="cart-summary-bar" *ngIf="cantidadCarrito > 0" (click)="toggleCarrito()" style="cursor: pointer;">
-  <div class="cart-bar-content">
-    <span>🛒 Carrito de Compras: <strong>{{ cantidadCarrito }}</strong> productos añadidos (Haz clic aquí para ver detalle)</span>
-    <span>Total estimado: <strong>${{ totalPrecio | number:'1.0-0' }}</strong></span>
-  </div>
-</div>
-
-<main class="main-layout">
-  
-  <section class="cart-detail-panel" *ngIf="mostrarDetalleCarrito && cantidadCarrito > 0" (click)="$event.stopPropagation()">
-    <h3>Detalle de tus productos añadidos</h3>
-    <ul class="cart-items-list">
-      <li *ngFor="let item of carritoAgrupado; trackBy: trackByProductoId">
-        <span class="item-name">
-          {{ item.producto.nombre }}
-        </span>
-        
-        <div class="item-actions">
-          <div class="quantity-controls" (click)="$event.stopPropagation()">
-            <button class="btn-qty" (click)="decrementarCantidad(item.producto.id); $event.stopPropagation()">-</button>
-            
-            <input 
-              type="text" 
-              class="qty-input-field" 
-              [value]="item.cantidad" 
-              (input)="actualizarCantidadDirecta(item.producto, $event)"
-              (click)="$event.stopPropagation()"
-              inputmode="numeric">
-              
-            <button class="btn-qty" (click)="incrementarCantidad(item.producto); $event.stopPropagation()">+</button>
-          </div>
-          
-          <span class="item-price">${{ item.subtotal | number:'1.0-0' }}</span>
-          <button class="btn-remove-item" (click)="eliminarGrupoDelCarrito(item.producto.id); $event.stopPropagation()" title="Quitar todos">Quitar</button>
-        </div>
-      </li>
-    </ul>
-    <div class="cart-panel-footer">
-      <span>Total neto a pagar: <strong>${{ totalPrecio | number:'1.0-0' }}</strong></span>
-      <button class="btn-checkout" (click)="finalizarCompraReal(); $event.stopPropagation()">Finalizar Compra</button>
-    </div>
-  </section>
-
-  <section class="products-section">
-    <h2>Productos Destacados</h2>
+  <section id="catalogo" class="productos-main">
+    <header class="cabecera-seccion">
+      <h2>Productos Destacados</h2>
+    </header>
     
-    <div class="filter-container">
+    <div class="filtros-container">
       <label for="category-filter">Filtrar por Categoría: </label>
       <select id="category-filter" class="category-select" [(ngModel)]="categoriaSeleccionada">
         <option value="todos">Todos</option>
@@ -72,77 +17,89 @@
       </select>
     </div>
 
-    <div class="products-grid">
-      
-      <article class="product-card" *ngFor="let producto of productosFiltrados">
-        <img [src]="producto.imagen" [alt]="producto.nombre" class="product-img">
-        <div class="card-body">
-          <h3>{{ producto.nombre }}</h3>
-          <p class="category-tag">{{ producto.categoria }}</p>
-          <p class="price">{{ producto.precioFormateated }}</p>
-          <button class="btn-add-cart" (click)="agregarAlCarrito(producto)">Agregar al carrito</button>
-        </div>
-      </article>
-
+    <div class="grilla-productos">
+      <app-producto 
+        *ngFor="let prod of productosFiltrados" 
+        [data]="prod" 
+        (agregar)="agregarAlCarrito($event)">
+      </app-producto>
     </div>
   </section>
 
-  <aside class="promo-sidebar">
-    <div class="promo-box">
-      <h3>Promociones del Mes</h3>
-      <ul>
-        <li>Descuento del 20% en alimentos de prescripción médica.</li>
-        <li>Peluquería canina con 15% de descuento los días martes.</li>
-      </ul>
+  <aside class="promociones-aside">
+    <div class="promo-header">
+      <h3>🔥 Promociones del Mes</h3>
+    </div>
+    
+    <div class="promo-cards-container">
+      <div class="promo-card">
+        <div class="promo-icon">💊</div>
+        <div class="promo-text">
+          <h4>Salud Preventiva</h4>
+          <p>Descuento del <strong>20%</strong> en alimentos de prescripción médica.</p>
+        </div>
+      </div>
+
+      <div class="promo-card">
+        <div class="promo-icon">✂️</div>
+        <div class="promo-text">
+          <h4>Martes de Belleza</h4>
+          <p>Peluquería canina con <strong>15%</strong> de descuento todos los martes.</p>
+        </div>
+      </div>
     </div>
   </aside>
 
-  <section id="seccion-contacto" class="contact-section">
-    <h2>Formulario de Contacto</h2>
-    <p class="contact-subtitle">¿Tienes dudas o necesitas asesoría personalizada? Escríbenos.</p>
+</main>
 
-    <div class="alert-success" *ngIf="formularioEnviadoExitosamente">
-      ¡Mensaje enviado con éxito! Nos pondremos en contacto a la brevedad.
+<hr class="separador">
+
+<section id="seccion-contacto" class="seccion-contacto">
+  <h2>Formulario de Contacto</h2>
+  <p class="contact-subtitle">¿Tienes dudas o necesitas asesoría personalizada? Escríbenos.</p>
+
+  <app-mensaje 
+    *ngIf="formularioEnviadoExitosamente" 
+    tipo="success" 
+    texto="¡Mensaje enviado con éxito! Nos pondremos en contacto a la brevedad.">
+  </app-mensaje>
+
+  <form [formGroup]="contactoForm" (ngSubmit)="enviarFormulario()" class="formulario-estilizado" novalidate>
+    
+    <div class="grupo-form">
+      <label for="nombre">Nombre Completo:</label>
+      <input type="text" id="nombre" formControlName="nombre" class="form-control" [ngClass]="{'is-invalid': contactoForm.get('nombre')?.touched && contactoForm.get('nombre')?.invalid}" placeholder="Ej: Juan Pérez">
+      <div class="error-message" *ngIf="contactoForm.get('nombre')?.touched && contactoForm.get('nombre')?.hasError('required')">
+        El nombre completo es obligatorio.
+      </div>
     </div>
 
-    <form [formGroup]="contactoForm" (ngSubmit)="enviarFormulario()" novalidate>
-      
-      <div class="form-group">
-        <label for="nombre">Nombre Completo:</label>
-        <input type="text" id="nombre" formControlName="nombre" class="form-control" [ngClass]="{'is-invalid': contactoForm.get('nombre')?.touched && contactoForm.get('nombre')?.invalid}">
-        <div class="error-message" *ngIf="contactoForm.get('nombre')?.touched && contactoForm.get('nombre')?.hasError('required')">
-          El nombre completo es obligatorio.
-        </div>
+    <div class="grupo-form">
+      <label for="correo">Correo Electrónico:</label>
+      <input type="email" id="correo" formControlName="correo" class="form-control" [ngClass]="{'is-invalid': contactoForm.get('correo')?.touched && contactoForm.get('correo')?.invalid}" placeholder="ejemplo@correo.com">
+      <div class="error-message" *ngIf="contactoForm.get('correo')?.touched && contactoForm.get('correo')?.hasError('required')">
+        El correo electrónico es obligatorio.
       </div>
-
-      <div class="form-group">
-        <label for="correo">Correo Electrónico:</label>
-        <input type="email" id="correo" formControlName="correo" class="form-control" [ngClass]="{'is-invalid': contactoForm.get('correo')?.touched && contactoForm.get('correo')?.invalid}">
-        <div class="error-message" *ngIf="contactoForm.get('correo')?.touched && contactoForm.get('correo')?.hasError('required')">
-          El correo electrónico es obligatorio.
-        </div>
-        <div class="error-message" *ngIf="contactoForm.get('correo')?.touched && contactoForm.get('correo')?.hasError('email')">
-          Por favor, introduce una dirección de correo válida.
-        </div>
+      <div class="error-message" *ngIf="contactoForm.get('correo')?.touched && contactoForm.get('correo')?.hasError('email')">
+        Por favor, introduce una dirección de correo válida.
       </div>
+    </div>
 
-      <div class="form-group">
-        <label for="mensaje">Mensaje o Comentario:</label>
-        <textarea id="mensaje" formControlName="mensaje" rows="5" class="form-control" [ngClass]="{'is-invalid': contactoForm.get('mensaje')?.touched && contactoForm.get('mensaje')?.invalid}"></textarea>
-        <div class="error-message" *ngIf="contactoForm.get('mensaje')?.touched && contactoForm.get('mensaje')?.hasError('required')">
-          El mensaje es obligatorio.
-        </div>
-        <div class="error-message" *ngIf="contactoForm.get('mensaje')?.touched && contactoForm.get('mensaje')?.hasError('minlength')">
-          El mensaje debe contener al menos 20 caracteres (llevas {{ contactoForm.get('mensaje')?.value?.length || 0 }} de 20 requeridos).
-        </div>
+    <div class="grupo-form">
+      <label for="mensaje">Mensaje o Comentario:</label>
+      <textarea id="mensaje" formControlName="mensaje" rows="5" class="form-control" [ngClass]="{'is-invalid': contactoForm.get('mensaje')?.touched && contactoForm.get('mensaje')?.invalid}" placeholder="Escribe al menos 20 caracteres..."></textarea>
+      <div class="error-message" *ngIf="contactoForm.get('mensaje')?.touched && contactoForm.get('mensaje')?.hasError('required')">
+        El mensaje es obligatorio.
       </div>
+      <div class="error-message" *ngIf="contactoForm.get('mensaje')?.touched && contactoForm.get('mensaje')?.hasError('minlength')">
+        El mensaje debe contener al menos 20 caracteres (llevas {{ contactoForm.get('mensaje')?.value?.length || 0 }} de 20 requeridos).
+      </div>
+    </div>
 
-      <button type="submit" class="btn-submit">Enviar Mensaje</button>
+    <button type="submit" [disabled]="contactoForm.invalid" class="btn-enviar">Enviar Mensaje</button>
 
-    </form>
-  </section>
-
-</main>
+  </form>
+</section>
 
 <footer class="petshop-footer">
   <div class="footer-content">

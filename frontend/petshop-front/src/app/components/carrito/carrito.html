@@ -1,0 +1,65 @@
+<app-menu></app-menu>
+
+<main class="carrito-container">
+  <div class="carrito-header">
+    <h2>Mi Carrito de Compras</h2>
+  </div>
+
+  <div class="carrito-vacio" *ngIf="carritoService.cantidadTotal === 0">
+    <div class="icono-vacio">🛒</div>
+    <h3>Tu carrito está vacío</h3>
+    <p>¡Explora nuestro catálogo y encuentra los mejores productos para tu mascota!</p>
+    <button class="btn-volver" (click)="seguirComprando()">Ir de compras</button>
+  </div>
+
+  <div class="carrito-layout" *ngIf="carritoService.cantidadTotal > 0">
+    
+    <section class="lista-productos">
+      <article class="item-carrito" *ngFor="let item of carritoService.getCarritoAgrupado()">
+        <img [src]="item.producto.imagen" [alt]="item.producto.nombre" class="item-img">
+        
+        <div class="item-info">
+          <h4>{{ item.producto.nombre }}</h4>
+          <span class="item-categoria">{{ item.producto.categoria | uppercase }}</span>
+        </div>
+
+        <div class="item-controles">
+          <button class="btn-qty" (click)="decrementar(item.producto.id)">-</button>
+          <input type="text" class="input-qty" [value]="item.cantidad" (input)="actualizarCantidad(item.producto, $event)">
+          <button class="btn-qty" (click)="incrementar(item.producto)">+</button>
+        </div>
+
+        <div class="item-precio">
+          <strong>${{ item.subtotal | number:'1.0-0' }}</strong>
+        </div>
+
+        <button class="btn-eliminar" (click)="eliminar(item.producto.id)" title="Eliminar producto">✖</button>
+      </article>
+    </section>
+
+    <aside class="resumen-compra">
+      <h3>Resumen del Pedido</h3>
+      
+      <div class="resumen-fila">
+        <span>Productos ({{ carritoService.cantidadTotal }}):</span>
+        <span>${{ carritoService.precioTotal | number:'1.0-0' }}</span>
+      </div>
+      
+      <div class="resumen-fila">
+        <span>Despacho:</span>
+        <span class="gratis">¡Envío Gratis!</span>
+      </div>
+      
+      <hr class="linea-resumen">
+      
+      <div class="resumen-total">
+        <span>Total a pagar:</span>
+        <strong>${{ carritoService.precioTotal | number:'1.0-0' }}</strong>
+      </div>
+      
+      <button class="btn-finalizar" (click)="finalizarCompra()">Procesar Pago Seguro</button>
+      <button class="btn-secundario" (click)="seguirComprando()">Agregar más cosas</button>
+    </aside>
+
+  </div>
+</main>

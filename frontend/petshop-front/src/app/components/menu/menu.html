@@ -1,23 +1,26 @@
-<div style="padding: 40px; font-family: Arial, sans-serif; text-align: center; background-color: #f8f9fa; min-height: 90vh;">
-  <h1 style="color: #333;">Panel Principal</h1>
-  <p style="color: #666; margin-bottom: 40px;">Selecciona una opción para gestionar la clínica</p>
-
-  <div style="display: flex; gap: 20px; justify-content: center; flex-wrap: wrap;">
-    
-    <div (click)="irAAgendar()" style="background: white; border: 1px solid #007bff; border-radius: 12px; padding: 30px; width: 280px; cursor: pointer; box-shadow: 0 4px 6px rgba(0,0,0,0.1); transition: transform 0.2s;">
-      <h3 style="color: #007bff;">Agendar Cita</h3>
-      <p style="font-size: 0.9em; color: #555;">Ingresar nuevos pacientes al sistema (Modelo de Negocio).</p>
+<header class="petshop-header">
+  <div class="header-container">
+    <div class="logo-area">
+      <img src="https://static.vecteezy.com/system/resources/previews/015/693/563/non_2x/dog-and-cat-logo-for-pet-shop-vector.jpg" alt="Logo PetShop Online" class="shop-logo">
+      <h1>PetShop Online</h1>
     </div>
-
-    <div (click)="irAMisCitas()" style="background: white; border: 1px solid #28a745; border-radius: 12px; padding: 30px; width: 280px; cursor: pointer; box-shadow: 0 4px 6px rgba(0,0,0,0.1); transition: transform 0.2s;">
-      <h3 style="color: #28a745;">Mis Citas</h3>
-      <p style="font-size: 0.9em; color: #555;">Ver listado completo y gestión de estados.</p>
-    </div>
-
-    <div (click)="irAConfiguracion()" style="background: white; border: 1px solid #ffc107; border-radius: 12px; padding: 30px; width: 280px; cursor: pointer; box-shadow: 0 4px 6px rgba(0,0,0,0.1); transition: transform 0.2s;">
-      <h3 style="color: #ffc107;">Configuración</h3>
-      <p style="font-size: 0.9em; color: #555;">Ajustes de perfil y parámetros del sistema.</p>
-    </div>
-
+    <p class="tagline">Vocación por la excelencia en el cuidado de tu mascota</p>
   </div>
-</div>
+</header>
+
+<nav class="petshop-nav">
+  <ul>
+    <li><a (click)="navegarA('inicio')" style="cursor: pointer;">Inicio</a></li>
+    <li><a (click)="navegarA('catalogo')" style="cursor: pointer;">Catálogo</a></li>
+    <li><a (click)="navegarA('seccion-contacto')" style="cursor: pointer;">Contacto</a></li>
+    
+    <li>
+      <a (click)="irAlCarrito()" class="btn-carrito-nav">
+        🛒 Carrito
+        <span class="badge-carrito" *ngIf="carritoService.cantidadTotal > 0">
+          {{ carritoService.cantidadTotal }}
+        </span>
+      </a>
+    </li>
+  </ul>
+</nav>

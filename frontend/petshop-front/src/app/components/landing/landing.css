@@ -1,22 +1,133 @@
-:host {
-  display: block;
-  font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-  color: #333333;
-  background-color: #fcfcfc;
-  margin: 0;
-  padding: 0;
+/* Contenedor principal usando CSS Grid */
+.layout-principal {
+  display: grid;
+  grid-template-columns: 3fr 1fr; /* El main toma el 75%, el aside el 25% */
+  gap: 30px;
+  max-width: 1200px;
+  margin: 40px auto;
+  padding: 0 20px;
 }
 
-.petshop-header {
-  background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
-  color: #ffffff;
+/* Sección de productos (Main) */
+.productos-main {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Grilla interna para las tarjetas de productos usando Flexbox/Grid mixto */
+.grilla-productos {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 20px;
+}
+
+/* Barra lateral de promociones (Aside) */
+.promociones-aside {
+  background-color: #f8f9fa;
+  border-radius: 12px;
   padding: 20px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+  height: fit-content; /* Para que no se estire innecesariamente */
+}
+
+/* Media Queries para diseño Responsive */
+@media (max-width: 768px) {
+  .layout-principal {
+    grid-template-columns: 1fr; /* Layout en 1 columna */
+  }
+  
+  .grilla-productos {
+    grid-template-columns: 1fr; /* Obliga a los productos a 1 sola columna como pide la rúbrica */
+  }
+  
+  .promociones-aside {
+    grid-row: 2; /* Obliga a la barra lateral a irse al fondo en móviles */
+    margin-top: 20px;
+  }
+}
+
+/* Estilos para las tarjetas de producto */
+.tarjeta-producto {
+  background: white;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+  transition: transform 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.tarjeta-producto:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 15px rgba(0,0,0,0.1);
+}
+
+.tarjeta-producto img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+.info-producto {
+  padding: 15px;
+  text-align: center;
+}
+
+.precio {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #2ecc71;
+}
+
+.btn-agregar, .btn-enviar {
+  background-color: #3498db;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  width: 100%;
+  margin-top: 10px;
+}
+
+.btn-agregar:hover, .btn-enviar:hover {
+  background-color: #2980b9;
+}
+
+/* Estilos Formulario */
+.seccion-contacto {
+  max-width: 600px;
+  margin: 0 auto 50px auto;
+  text-align: center;
+}
+
+.grupo-form {
+  margin-bottom: 15px;
+  text-align: left;
+}
+
+.grupo-form input, .grupo-form textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin-top: 5px;
+}
+
+/* =========================================
+   ENCABEZADO Y LOGO
+   ========================================= */
+.petshop-header {
+  background-color: #ffffff;
+  padding: 20px;
+  text-align: center;
+  border-bottom: 1px solid #eaeaea;
 }
 
 .header-container {
-  max-width: 1200px;
-  margin: 0 auto;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -31,32 +142,29 @@
 }
 
 .shop-logo {
-  width: 80px;
-  height: 80px;
+  max-width: 80px;
+  height: auto;
   border-radius: 50%;
-  object-fit: cover;
-  background-color: #ffffff;
-  padding: 3px;
 }
 
-.header-container h1 {
+.logo-area h1 {
   margin: 0;
+  color: #2c3e50;
   font-size: 2.5rem;
-  letter-spacing: 1px;
 }
 
 .tagline {
+  color: #7f8c8d;
+  font-style: italic;
   margin: 0;
-  font-size: 1.1rem;
-  opacity: 0.9;
 }
 
+/* =========================================
+   BARRA DE NAVEGACIÓN
+   ========================================= */
 .petshop-nav {
   background-color: #2c3e50;
-  padding: 0 10px;
-  position: sticky;
-  top: 0;
-  z-index: 1000;
+  padding: 15px 0;
 }
 
 .petshop-nav ul {
@@ -65,475 +173,170 @@
   padding: 0;
   display: flex;
   justify-content: center;
-}
-
-.petshop-nav li a {
-  display: block;
-  color: #ffffff;
-  text-decoration: none;
-  padding: 15px 20px;
-  font-weight: 500;
-  transition: background-color 0.3s ease;
-}
-
-.petshop-nav li a:hover,
-.petshop-nav li a.active {
-  background-color: #1abc9c;
-}
-
-.main-layout {
-  display: grid;
-  grid-template-columns: 3fr 1fr;
   gap: 30px;
-  max-width: 1200px;
-  margin: 30px auto;
-  padding: 0 20px;
-  box-sizing: border-box;
 }
 
-.products-section h2 {
-  margin-top: 0;
-  border-bottom: 2px solid #2a5298;
-  padding-bottom: 10px;
-  color: #2a5298;
+.petshop-nav a {
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 1.1rem;
+  transition: color 0.3s;
 }
 
-.filter-container {
-  margin-bottom: 25px;
-  background-color: #f1f4f8;
-  padding: 12px 20px;
-  border-radius: 6px;
-  display: inline-block;
+.petshop-nav a:hover, .petshop-nav a.active {
+  color: #3498db;
 }
 
-.category-select {
-  padding: 8px 12px;
-  border-radius: 4px;
-  border: 1px solid #cccccc;
-  font-size: 0.95rem;
-}
-
-.products-grid {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
-}
-
-.product-card {
-  background-color: #ffffff;
-  border: 1px solid #e2e8f0;
-  border-radius: 8px;
-  width: calc(33.333% - 14px);
-  min-width: 220px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.02);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-  box-sizing: border-box;
-}
-
-.product-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.05);
-}
-
-.product-img {
-  width: 100%;
-  height: 180px;
-  object-fit: cover;
-  background-color: #f7fafc;
-}
-
-.card-body {
-  padding: 15px;
-  display: flex;
-  flex-direction: column;
-  flex-grow: 1;
-}
-
-.product-card h3 {
-  margin: 0 0 8px 0;
-  font-size: 1.2rem;
-}
-
-.category-tag {
-  margin: 0 0 12px 0;
-  color: #718096;
-  font-size: 0.85rem;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-.price {
-  margin: auto 0 15px 0;
-  font-size: 1.3rem;
-  font-weight: 700;
-  color: #27ae60;
-}
-
-.btn-add-cart {
-  background-color: #2a5298;
-  color: #ffffff;
-  border: none;
-  padding: 10px 15px;
-  border-radius: 5px;
-  cursor: pointer;
-  font-weight: 600;
-  transition: background-color 0.2s ease;
-}
-
-.btn-add-cart:hover {
-  background-color: #1e3c72;
-}
-
-.promo-sidebar {
-  box-sizing: border-box;
-}
-
-.promo-box {
-  background-color: #fff9db;
-  border: 1px solid #ffe066;
-  padding: 20px;
-  border-radius: 8px;
+/* =========================================
+   BARRA DEL CARRITO FLOTANTE
+   ========================================= */
+.cart-summary-bar {
+  background-color: #2ecc71;
+  color: white;
+  padding: 15px 20px;
   position: sticky;
-  top: 70px;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
 }
 
-.promo-box h3 {
-  margin-top: 0;
-  color: #f03e3e;
-}
-
-.promo-box ul {
-  padding-left: 20px;
-  margin: 0;
-}
-
-.promo-box li {
-  margin-bottom: 10px;
-  line-height: 1.4;
-}
-
-.petshop-footer {
-  background-color: #2c3e50;
-  color: #ecf0f1;
-  padding: 30px 20px;
-  margin-top: 50px;
-  border-top: 4px solid #1abc9c;
-}
-
-.footer-content {
+.cart-bar-content {
+  display: flex;
+  justify-content: space-around;
   max-width: 1200px;
   margin: 0 auto;
-  text-align: center;
+  font-size: 1.1rem;
 }
 
-.footer-content p {
+/* =========================================
+   PIE DE PÁGINA (FOOTER)
+   ========================================= */
+.petshop-footer {
+  background-color: #2c3e50;
+  color: white;
+  text-align: center;
+  padding: 30px 20px;
+  margin-top: 40px;
+}
+
+.petshop-footer p {
   margin: 5px 0;
 }
 
 .copyright {
-  font-size: 0.85rem;
+  font-size: 0.9rem;
   color: #bdc3c7;
   margin-top: 15px !important;
 }
 
-@media (max-width: 1023px) and (min-width: 768px) {
-  .main-layout {
-    grid-template-columns: 1fr;
-    gap: 20px;
-  }
-  
-  .product-card {
-    width: calc(50% - 10px);
-  }
+/* =========================================
+   BARRA LATERAL DE PROMOCIONES (ASIDE)
+   ========================================= */
+.promociones-aside {
+  background: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
+  border-radius: 12px;
+  padding: 25px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+  height: fit-content;
+  border-top: 5px solid #e74c3c; /* Borde rojo superior para destacar la zona de ofertas */
 }
 
-@media (max-width: 767px) {
-  .petshop-header {
-    padding: 20px 10px;
-  }
-  
-  .header-container h1 {
-    font-size: 1.8rem;
-  }
-
-  .petshop-nav ul {
-    flex-direction: column;
-  }
-
-  .petshop-nav li a {
-    text-align: center;
-    padding: 12px;
-    border-bottom: 1px solid rgba(255,255,255,0.05);
-  }
-
-  .main-layout {
-    grid-template-columns: 1fr;
-    padding: 0 15px;
-    margin: 15px auto;
-  }
-
-  .products-grid {
-    flex-direction: column;
-  }
-
-  .product-card {
-    width: 100%;
-  }
-  
-  .promo-sidebar {
-    order: 2; 
-  }
-}
-.cart-summary-bar {
-  background-color: #27ae60;
-  color: #ffffff;
-  padding: 12px 20px;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-}
-
-.cart-bar-content {
-  max-width: 1200px;
-  margin: 0 auto;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-size: 1.05rem;
-}
-/* --- Formulario de Contacto RF05 --- */
-.contact-section {
-  grid-column: 1 / -1; /* Ocupa todo el ancho del CSS Grid principal */
-  background-color: #ffffff;
-  padding: 30px;
-  border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-  margin-top: 40px;
-}
-
-.contact-subtitle {
-  color: #7f8c8d;
-  margin-bottom: 25px;
-}
-
-.form-group {
-  margin-bottom: 20px;
-}
-
-.form-group label {
-  display: block;
-  font-weight: 600;
-  margin-bottom: 8px;
-  color: #2c3e50;
-}
-
-.form-control {
-  width: 100%;
-  padding: 12px;
-  border: 1px solid #bdc3c7;
-  border-radius: 4px;
-  font-family: inherit;
-  font-size: 1rem;
-  box-sizing: border-box;
-  transition: border-color 0.2s ease-in-out;
-}
-
-.form-control:focus {
-  outline: none;
-  border-color: #3498db;
-}
-
-/* Estado inválido dinámico */
-.form-control.is-invalid {
-  border-color: #e74c3c;
-  background-color: #fdf2f2;
-}
-
-.error-message {
-  color: #e74c3c;
-  font-size: 0.875rem;
-  margin-top: 6px;
-  font-weight: 500;
-}
-
-.alert-success {
-  background-color: #d4edda;
-  color: #155724;
-  border: 1px solid #c3e6cb;
-  padding: 15px;
-  border-radius: 4px;
-  margin-bottom: 20px;
-  font-weight: 500;
-}
-
-.btn-submit {
-  background-color: #3498db;
-  color: #ffffff;
-  border: none;
-  padding: 12px 30px;
-  font-size: 1rem;
-  font-weight: 600;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: background-color 0.2s ease-in-out;
-}
-
-.btn-submit:hover {
-  background-color: #2980b9;
-}
-
-/* Soporte responsive en pantallas móviles para el formulario */
-@media (max-width: 767px) {
-  .contact-section {
-    padding: 20px;
-  }
-  
-  .btn-submit {
-    width: 100%;
-  }
-} 
-/* --- Detalle del Carrito Avanzado RF04 --- */
-.cart-detail-panel {
-  grid-column: 1 / -1;
-  background-color: #f8f9fa;
-  border: 1px solid #e9ecef;
-  border-radius: 6px;
-  padding: 20px;
-  margin-bottom: 25px;
-  box-shadow: inset 0 2px 4px rgba(0,0,0,0.02);
-}
-
-.cart-detail-panel h3 {
+.promo-header h3 {
   margin-top: 0;
   color: #2c3e50;
-  border-bottom: 2px solid #3498db;
-  padding-bottom: 8px;
+  font-size: 1.4rem;
+  border-bottom: 2px solid #eaeaea;
+  padding-bottom: 10px;
+  margin-bottom: 20px;
 }
 
-.cart-items-list {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.cart-items-list li {
+.promo-cards-container {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 10px 0;
-  border-bottom: 1px solid #dee2e6;
+  flex-direction: column;
+  gap: 15px; /* Separación entre las tarjetas de promo */
 }
 
-.item-name {
-  font-weight: 500;
-  color: #34495e;
+.promo-card {
+  display: flex;
+  align-items: flex-start;
+  background: white;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.03);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  border-left: 4px solid #3498db; /* Borde azul a la izquierda */
 }
 
-.item-actions {
+.promo-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 5px 12px rgba(0,0,0,0.1);
+}
+
+.promo-icon {
+  font-size: 1.8rem;
+  margin-right: 15px;
+  line-height: 1;
+}
+
+.promo-text h4 {
+  margin: 0 0 5px 0;
+  color: #2980b9;
+  font-size: 1.05rem;
+}
+
+.promo-text p {
+  margin: 0;
+  font-size: 0.9rem;
+  color: #555;
+  line-height: 1.4;
+}
+
+/* =========================================
+   FILTRO DE CATEGORÍAS
+   ========================================= */
+.filtros-container {
   display: flex;
   align-items: center;
   gap: 15px;
+  margin-bottom: 30px;
+  background: white;
+  padding: 15px 25px;
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.04);
+  width: fit-content;
 }
 
-.item-price {
-  font-weight: 600;
+.filtros-container label {
+  font-weight: bold;
   color: #2c3e50;
-}
-
-.btn-remove-item {
-  background-color: #e74c3c;
-  color: #ffffff;
-  border: none;
-  padding: 5px 10px;
-  border-radius: 4px;
-  font-size: 0.85rem;
-  cursor: pointer;
-  transition: background-color 0.1s ease;
-}
-
-.btn-remove-item:hover {
-  background-color: #c0392b;
-}
-
-.cart-panel-footer {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-top: 15px;
-  padding-top: 15px;
-  font-size: 1.1rem;
-}
-
-.btn-checkout {
-  background-color: #2ecc71;
-  color: #ffffff;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 4px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background-color 0.1s ease;
-}
-
-.btn-checkout:hover {
-  background-color: #27ae60;
-}
-/* --- Controles de Cantidad Interactivos --- */
-.quantity-controls {
-  display: flex;
-  align-items: center;
-  background-color: #ffffff;
-  border: 1px solid #ced4da;
-  border-radius: 4px;
-  overflow: hidden;
-}
-
-.btn-qty {
-  background-color: #eee;
-  border: none;
-  color: #333;
-  padding: 5px 12px;
-  font-size: 1rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background-color 0.1s ease;
-}
-
-.btn-qty:hover {
-  background-color: #ddd;
-}
-
-.qty-number {
-  padding: 0 12px;
-  font-weight: 600;
-  min-width: 20px;
-  text-align: center;
-  color: #2c3e50;
-}
-/* --- Estilos para el campo de entrada editable de cantidad --- */
-.qty-input-field {
-  width: 45px;
-  border: none;
-  text-align: center;
-  font-size: 1rem;
-  font-weight: 600;
-  color: #2c3e50;
-  outline: none;
-  background-color: transparent;
-  padding: 0;
-}
-
-/* Eliminar flechas por defecto de los inputs de tipo número */
-.qty-input-field::-webkit-outer-spin-button,
-.qty-input-field::-webkit-inner-spin-button {
-  -webkit-appearance: none;
+  font-size: 1.05rem;
   margin: 0;
 }
 
-.qty-input-field {
-  -moz-appearance: textfield; /* Para Firefox */
+.category-select {
+  appearance: none; /* Borra la flecha fea por defecto del navegador */
+  -webkit-appearance: none;
+  background-color: #f8f9fa;
+  border: 1px solid #ced4da;
+  border-radius: 8px;
+  padding: 10px 40px 10px 15px;
+  font-size: 1rem;
+  color: #495057;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  
+  /* Dibujamos una flecha minimalista con código SVG */
+  background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%232c3e50%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E");
+  background-repeat: no-repeat;
+  background-position: right 15px top 50%;
+  background-size: 12px auto;
 }
-html {
-  scroll-behavior: smooth;
+
+/* Efecto al hacer clic o pasar el mouse */
+.category-select:hover, .category-select:focus {
+  border-color: #3498db;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.15);
 }

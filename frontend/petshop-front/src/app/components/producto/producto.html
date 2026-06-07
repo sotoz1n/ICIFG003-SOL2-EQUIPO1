@@ -1,0 +1,9 @@
+<article class="tarjeta-producto">
+  <img [src]="data.imagen" [alt]="'Fotografía de ' + data.nombre" class="product-img">
+  <div class="info-producto">
+    <h3>{{ data.nombre }}</h3>
+    <p class="categoria category-tag">{{ data.categoria | uppercase }}</p>
+    <p class="precio price">{{ data.precioFormateated }}</p>
+    <button class="btn-agregar btn-add-cart" (click)="onAgregarClick()">Agregar al carrito</button>
+  </div>
+</article>

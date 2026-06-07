@@ -27,12 +27,12 @@ INSERT INTO servicio (nombre_servicio, descripcion, valor) VALUES
 
 --Productos
 INSERT INTO producto (nombre, descripcion, precio, stock, imagen, id_categoria) VALUES 
-('Alimento Premium Perros', 'Saco de 15kg para perro adulto raza mediana', 18990, 45, 'assets/imagenes/alimento-perro.jpg', 1),
-('Arena Sanitaria Gatos', 'Arena aglutinante premium saco de 10kg', 7990, 80, 'assets/imagenes/arena-gatos.jpg', 2),
-('Correa Retractil', 'Correa de 5 metros reforzada para paseo', 12990, 25, 'assets/imagenes/correa.jpg', 3),
-('Juguete Raton de Goma', 'Juguete interactivo para gatos con sonido', 3490, 15, 'assets/imagenes/raton-goma.jpg', 2),
-('Arnes', 'Para llevar a tu mascota comoda', 15990, 12, 'assets/imagenes/arnes.jpg', 3),
-('Casa para perro', 'medidas: 2,00mt x 1,50mt', 49990, 2, 'assests/imagenes/casa-perro', 1);
+('Alimento Premium Perros', 'Saco de 15kg para perro adulto raza mediana', 18990, 45, 'https://vetfarma.cl/wp-content/uploads/2021/08/alfa-dog-premium-senior-20.jpg', 1),
+('Arena Sanitaria Gatos', 'Arena aglutinante premium saco de 10kg', 7990, 80, 'https://alvicl.vtexassets.com/arquivos/ids/158992/Arena-gato-ecologica.jpg?v=637880504582700000', 2),
+('Correa Retractil', 'Correa de 5 metros reforzada para paseo', 12990, 25, 'https://zoomypuppy.cl/cdn/shop/files/correa_retractil_truelove_negra_1080x.jpg?v=1724080605', 3),
+('Juguete Raton de Goma', 'Juguete interactivo para gatos con sonido', 3490, 15, 'https://arenaparamascotas.cl/wp-content/uploads/2024/09/Juguete-Raton-con-sonido-para-gatos-2.jpg', 2),
+('Arnes', 'Para llevar a tu mascota comoda', 15990, 12, 'https://cl-dam-resizer.ecomm.cencosud.com/unsafe/adaptive-fit-in/400x400/easy/1334936/variant/images/71399438-2abd-4617-afa5-fcf5017cb092/1334936-0000-001.jpg', 3),
+('Casa para perro', 'medidas: 2,00mt x 1,50mt', 49990, 2, 'https://cl-dam-resizer.ecomm.cencosud.com/unsafe/adaptive-fit-in/3840x0/filters:quality(75)/cl/easy/1255099/variant/670fdfc6e237505f625a7c31/images/fe53ba1c-c6f4-42a7-9ebb-d0247ee44910/1255099-0250-001.jpg', 1);
 
 --Mascotaas
 INSERT INTO mascota (nombre, especie, raza, sexo, fecha_nacimiento, peso, id_cliente) VALUES 
