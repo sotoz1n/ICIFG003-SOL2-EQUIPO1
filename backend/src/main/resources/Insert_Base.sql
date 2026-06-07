@@ -1,7 +1,3 @@
--- ========================================================
--- INSERCIÓN DE DATOS DE PRUEBA (DML)
--- ========================================================
-
 --Productos 
 INSERT INTO categoria_producto (nombre_categoria, descripcion) VALUES 
 ('Perros', 'Alimentos, juguetes y accesorios para caninos'),
@@ -11,8 +7,8 @@ INSERT INTO categoria_producto (nombre_categoria, descripcion) VALUES
 --Veterinarios
 INSERT INTO veterinario (nombre, apellido, especialidad, correo, telefono) VALUES 
 ('Carlos', 'Mendoza', 'Cirugia General', 'carlos.mendoza@petshop.cl', '+56967676767'),
-('Ana', 'Silva', 'Medicina Felina', 'ana.silva@petshop.cl', '+56933334444'),
-('Laura', 'Rojas', 'Dermatologia', 'laura.rojas@petshop.cl', '+56955556666');
+('Ana', 'Silva', 'Medicina Felina', 'ana.silva@petshop.cl', '+56967676767'),
+('Laura', 'Rojas', 'Dermatologia', 'laura.rojas@petshop.cl', '+56967676767');
 
 --Clientes 
 INSERT INTO cliente (rut, nombre, apellido, correo, telefono, direccion) VALUES 
@@ -36,8 +32,9 @@ INSERT INTO producto (nombre, descripcion, precio, stock, imagen, id_categoria) 
 
 --Mascotaas
 INSERT INTO mascota (nombre, especie, raza, sexo, fecha_nacimiento, peso, id_cliente) VALUES 
-('Rocky', 'Perro', 'Pastor Aleman', 'M', '2022-03-15', 32.50, 1),
-('Luna', 'Gato', 'Siames', 'F', '2023-08-20', 4.20, 2);
+('Kenai', 'Perro', 'Pastor Aleman', 'M', '2022-03-15', 32.50, 1),
+('Luna', 'Gato', 'Siames', 'F', '2023-08-20', 4.20, 2),
+('Nanuk', 'Perro', 'Goden', 'M', '2020-07-17', 4.20, 2);
 
 --Carritos de Compra
 INSERT INTO carrito (id_cliente) VALUES (1), (2);
@@ -48,7 +45,7 @@ INSERT INTO detalle_carrito (id_carrito, id_producto, cantidad, precio_unitario)
 (1, 3, 1, 12990), -- Juan compra 1 Correa Retráctil
 (2, 2, 2, 7990);  -- María compra 2 Arenas Sanitarias
 
---Reservas Clínicas
+--Reservas 
 INSERT INTO reserva (fecha_hora_reserva, estado, observacion, id_mascota, id_veterinario, id_servicio) VALUES 
 ('2026-06-10 10:30:00', 'Confirmada', 'Control de vacunas anuales', 1, 1, 2),
 ('2026-06-11 15:00:00', 'Pendiente', 'Corte de pelo de temporada', 1, 3, 3);

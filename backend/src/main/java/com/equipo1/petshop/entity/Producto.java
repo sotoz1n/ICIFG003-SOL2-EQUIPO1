@@ -33,16 +33,13 @@ public class Producto {
     @Column(length = 255)
     private String imagen;
 
-    // Relación Muchos a Uno: Muchos productos pertenecen a una única categoría 
     @ManyToOne
     @JoinColumn(name = "id_categoria", nullable = false) // Mapea la llave foránea física de Postgres
     private CategoriaProducto categoria;
 
-    // Constructor vacío obligatorio
     public Producto() {
     }
 
-    // Constructor con parámetros
     public Producto(Integer id, String nombre, String descripcion, BigDecimal precio, Integer stock, String imagen, CategoriaProducto categoria) {
         this.id = id;
         this.nombre = nombre;
@@ -53,7 +50,6 @@ public class Producto {
         this.categoria = categoria;
     }
 
-    // Getters y Setters
     public Integer getId() {
         return id;
     }
