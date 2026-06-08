@@ -16,6 +16,7 @@ interface Producto {
   precio: number;
   precioFormateated: string;
   imagen: string;
+  stock: number;
 }
 
 @Component({
@@ -28,6 +29,7 @@ interface Producto {
 })
 export class LandingComponent implements OnInit {
   categoriaSeleccionada: string = 'todos';
+  terminoBusqueda: string = '';
   contactoForm: FormGroup;
   formularioEnviadoExitosamente: boolean = false;
   productos: Producto[] = [];
@@ -58,7 +60,8 @@ export class LandingComponent implements OnInit {
           categoria: item.categoria ? item.categoria.nombreCategoria.toLowerCase() : 'otros',
           precio: item.precio,
           precioFormateated: '$' + item.precio.toLocaleString('es-CL'),
-          imagen: item.imagen || 'https://via.placeholder.com/150'
+          imagen: item.imagen || 'https://via.placeholder.com/150',
+          stock: item.stock || 0
         }));
       },
       error: (err) => {
@@ -68,10 +71,20 @@ export class LandingComponent implements OnInit {
   }
 
   get productosFiltrados(): Producto[] {
-    if (this.categoriaSeleccionada === 'todos') {
-      return this.productos;
+    let filtrados = this.productos;
+
+    // 1. Primero filtramos por la categoría elegida
+    if (this.categoriaSeleccionada !== 'todos') {
+      filtrados = filtrados.filter(p => p.categoria === this.categoriaSeleccionada);
     }
-    return this.productos.filter(p => p.categoria === this.categoriaSeleccionada);
+
+    // 2. Luego filtramos por lo que el usuario está escribiendo
+    if (this.terminoBusqueda.trim() !== '') {
+      const termino = this.terminoBusqueda.toLowerCase();
+      filtrados = filtrados.filter(p => p.nombre.toLowerCase().includes(termino));
+    }
+
+    return filtrados;
   }
 
   agregarAlCarrito(producto: Producto): void {

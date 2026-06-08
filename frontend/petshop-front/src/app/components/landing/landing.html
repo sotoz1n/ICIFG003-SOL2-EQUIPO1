@@ -15,6 +15,9 @@
         <option value="gatos">Gatos</option>
         <option value="accesorios">Accesorios</option>
       </select>
+
+      <label style="margin-left: 15px;">Buscar:</label>
+      <input type="text" class="category-select" [(ngModel)]="terminoBusqueda" placeholder="Ej: Correa...">
     </div>
 
     <div class="grilla-productos">
@@ -45,6 +48,14 @@
         <div class="promo-text">
           <h4>Martes de Belleza</h4>
           <p>Peluquería canina con <strong>15%</strong> de descuento todos los martes.</p>
+        </div>
+      </div>
+
+      <div class="promo-card">
+        <div class="promo-icon">🚚</div>
+        <div class="promo-text">
+          <h4>Envío Gratis</h4>
+          <p>Despacho a costo <strong>$0</strong> por compras superiores a $15.000.</p>
         </div>
       </div>
     </div>
