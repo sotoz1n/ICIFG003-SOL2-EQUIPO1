@@ -22,12 +22,13 @@ export class CarritoComponent {
     private http: HttpClient,
     private router: Router
   ) {}
-
   // Calcula cuánto cuesta el envío
   get costoDespacho(): number {
     if (this.carritoService.cantidadTotal === 0) return 0;
+    // Si el total de productos suma 15.000 o más, el envío es 0. Si no, cobramos 3000.
     return this.carritoService.precioTotal >= 15000 ? 0 : 3000;
   }
+
 
   // Calcula el total definitivo a cobrar en la tarjeta
   get totalFinal(): number {
@@ -61,7 +62,7 @@ export class CarritoComponent {
     this.carritoService.decrementar(id);
   }
 
-  actualizarCantidad(producto: any, event: any) {
+actualizarCantidad(producto: any, event: any) {
     const inputElement = event.target as HTMLInputElement;
     let valor = parseInt(inputElement.value.replace(/[^0-9]/g, ''), 10);
     
