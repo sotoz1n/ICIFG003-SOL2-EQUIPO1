@@ -47,14 +47,21 @@
       
       <div class="resumen-fila">
         <span>Despacho:</span>
-        <span class="gratis">¡Envío Gratis!</span>
+        <span *ngIf="costoDespacho > 0">${{ costoDespacho | number:'1.0-0' }}</span>
+        <span class="gratis" *ngIf="costoDespacho === 0" style="color: #2ecc71; font-weight: bold;">¡Envío Gratis!</span>
+      </div>
+      
+      <div *ngIf="costoDespacho > 0" style="text-align: right; margin-top: -5px; margin-bottom: 10px;">
+        <small style="color: #e74c3c; font-weight: 500;">
+          (Faltan ${{ faltaParaEnvioGratis | number:'1.0-0' }} para envío gratis)
+        </small>
       </div>
       
       <hr class="linea-resumen">
       
       <div class="resumen-total">
         <span>Total a pagar:</span>
-        <strong>${{ carritoService.precioTotal | number:'1.0-0' }}</strong>
+        <strong>${{ totalFinal | number:'1.0-0' }}</strong>
       </div>
       
       <button class="btn-finalizar" (click)="finalizarCompra()">Procesar Pago Seguro</button>

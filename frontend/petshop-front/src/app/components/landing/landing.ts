@@ -16,18 +16,20 @@ interface Producto {
   precio: number;
   precioFormateated: string;
   imagen: string;
+  stock: number;
 }
 
 @Component({
   selector: 'app-landing',
   standalone: true,
-  // AQUÍ AGREGAMOS MensajeComponent AL FINAL DE LA LISTA
   imports: [CommonModule, FormsModule, ReactiveFormsModule, HttpClientModule, ProductoComponent, MenuComponent, MensajeComponent],
   templateUrl: './landing.html',
   styleUrl: './landing.css'
 })
 export class LandingComponent implements OnInit {
   categoriaSeleccionada: string = 'todos';
+  terminoBusqueda: string = '';
+  ordenSeleccionado: string = 'defecto'; // <-- NUEVA VARIABLE PARA EL ORDEN
   contactoForm: FormGroup;
   formularioEnviadoExitosamente: boolean = false;
   productos: Producto[] = [];
@@ -49,6 +51,8 @@ export class LandingComponent implements OnInit {
     this.cargarProductos();
   }
 
+  // Se conecta al backend de Spring Boot y mapea la respuesta
+  // formateando los precios y protegiendo los datos nulos de stock
   cargarProductos(): void {
     this.apiService.obtenerProductos().subscribe({
       next: (data) => {
@@ -58,7 +62,8 @@ export class LandingComponent implements OnInit {
           categoria: item.categoria ? item.categoria.nombreCategoria.toLowerCase() : 'otros',
           precio: item.precio,
           precioFormateated: '$' + item.precio.toLocaleString('es-CL'),
-          imagen: item.imagen || 'https://via.placeholder.com/150'
+          imagen: item.imagen || 'https://via.placeholder.com/150',
+          stock: item.stock || 0
         }));
       },
       error: (err) => {
@@ -68,10 +73,27 @@ export class LandingComponent implements OnInit {
   }
 
   get productosFiltrados(): Producto[] {
-    if (this.categoriaSeleccionada === 'todos') {
-      return this.productos;
+    let filtrados = this.productos;
+
+    // 1. Primero filtramos por la categoría elegida
+    if (this.categoriaSeleccionada !== 'todos') {
+      filtrados = filtrados.filter(p => p.categoria === this.categoriaSeleccionada);
     }
-    return this.productos.filter(p => p.categoria === this.categoriaSeleccionada);
+
+    // 2. Luego filtramos por lo que el usuario está escribiendo
+    if (this.terminoBusqueda.trim() !== '') {
+      const termino = this.terminoBusqueda.toLowerCase();
+      filtrados = filtrados.filter(p => p.nombre.toLowerCase().includes(termino));
+    }
+
+    // 3. NUEVO: Ordenamos según el precio
+    if (this.ordenSeleccionado === 'menor') {
+      filtrados.sort((a, b) => a.precio - b.precio);
+    } else if (this.ordenSeleccionado === 'mayor') {
+      filtrados.sort((a, b) => b.precio - a.precio);
+    }
+
+    return filtrados;
   }
 
   agregarAlCarrito(producto: Producto): void {

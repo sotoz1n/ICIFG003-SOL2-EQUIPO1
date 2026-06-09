@@ -15,6 +15,28 @@
         <option value="gatos">Gatos</option>
         <option value="accesorios">Accesorios</option>
       </select>
+
+      <label style="margin-left: 15px;">Buscar:</label>
+      <input type="text" class="category-select" [(ngModel)]="terminoBusqueda" placeholder="Ej: Correa, Hueso, Rascador...">
+
+      <label style="margin-left: 15px;">Ordenar: </label>
+      <select class="category-select" [(ngModel)]="ordenSeleccionado">
+        <option value="defecto">Relevancia</option>
+        <option value="menor">Precio: Menor a Mayor</option>
+        <option value="mayor">Precio: Mayor a Menor</option>
+      </select>
+    </div>
+
+    <div class="resultados-info" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; font-size: 0.95rem; color: #555;">
+      
+      <span>Mostrando <strong>{{ productosFiltrados.length }}</strong> productos en el catálogo.</span>
+
+      <button *ngIf="categoriaSeleccionada !== 'todos' || terminoBusqueda !== '' || ordenSeleccionado !== 'defecto'" 
+              (click)="categoriaSeleccionada = 'todos'; terminoBusqueda = ''; ordenSeleccionado = 'defecto'" 
+              style="background: none; border: none; color: #e74c3c; cursor: pointer; text-decoration: underline; font-weight: bold;">
+        Limpiar todos los filtros ✖
+      </button>
+      
     </div>
 
     <div class="grilla-productos">
@@ -23,6 +45,14 @@
         [data]="prod" 
         (agregar)="agregarAlCarrito($event)">
       </app-producto>
+    </div>
+
+    <div *ngIf="productosFiltrados.length === 0" style="text-align: center; padding: 40px; color: #7f8c8d;">
+      <h3>😿 ¡Ups! No encontramos lo que buscas.</h3>
+      <p>Intenta con otras palabras o limpia los filtros.</p>
+      <button (click)="terminoBusqueda = ''; categoriaSeleccionada = 'todos'; ordenSeleccionado = 'defecto'" class="btn-enviar" style="margin-top: 15px; width: auto; padding: 10px 20px;">
+        Ver todos los productos
+      </button>
     </div>
   </section>
 
@@ -45,6 +75,14 @@
         <div class="promo-text">
           <h4>Martes de Belleza</h4>
           <p>Peluquería canina con <strong>15%</strong> de descuento todos los martes.</p>
+        </div>
+      </div>
+
+      <div class="promo-card">
+        <div class="promo-icon">🚚</div>
+        <div class="promo-text">
+          <h4>Envío Gratis</h4>
+          <p>Despacho a costo <strong>$0</strong> por compras superiores a $15.000.</p>
         </div>
       </div>
     </div>
