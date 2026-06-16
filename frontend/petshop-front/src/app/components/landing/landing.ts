@@ -29,7 +29,7 @@ interface Producto {
 export class LandingComponent implements OnInit {
   categoriaSeleccionada: string = 'todos';
   terminoBusqueda: string = '';
-  ordenSeleccionado: string = 'defecto'; // <-- NUEVA VARIABLE PARA EL ORDEN
+  ordenSeleccionado: string = 'defecto'; 
   contactoForm: FormGroup;
   formularioEnviadoExitosamente: boolean = false;
   productos: Producto[] = [];
@@ -51,8 +51,6 @@ export class LandingComponent implements OnInit {
     this.cargarProductos();
   }
 
-  // Se conecta al backend de Spring Boot y mapea la respuesta
-  // formateando los precios y protegiendo los datos nulos de stock
   cargarProductos(): void {
     this.apiService.obtenerProductos().subscribe({
       next: (data) => {
@@ -75,18 +73,15 @@ export class LandingComponent implements OnInit {
   get productosFiltrados(): Producto[] {
     let filtrados = this.productos;
 
-    // 1. Primero filtramos por la categoría elegida
     if (this.categoriaSeleccionada !== 'todos') {
       filtrados = filtrados.filter(p => p.categoria === this.categoriaSeleccionada);
     }
 
-    // 2. Luego filtramos por lo que el usuario está escribiendo
     if (this.terminoBusqueda.trim() !== '') {
       const termino = this.terminoBusqueda.toLowerCase();
       filtrados = filtrados.filter(p => p.nombre.toLowerCase().includes(termino));
     }
 
-    // 3. NUEVO: Ordenamos según el precio
     if (this.ordenSeleccionado === 'menor') {
       filtrados.sort((a, b) => a.precio - b.precio);
     } else if (this.ordenSeleccionado === 'mayor') {
@@ -109,11 +104,29 @@ export class LandingComponent implements OnInit {
     });
   }
 
+  // REQ9: Función modificada para conectar con la base de datos MySQL de Spring Boot
   enviarFormulario(): void {
     if (this.contactoForm.valid) {
-      this.formularioEnviadoExitosamente = true;
-      this.contactoForm.reset();
-      setTimeout(() => { this.formularioEnviadoExitosamente = false; }, 5000);
+      const urlBackend = 'http://localhost:8080/api/contacto/enviar';
+      const datosFormulario = this.contactoForm.value;
+
+      // Disparamos el POST directo al puente del Backend
+      this.http.post(urlBackend, datosFormulario).subscribe({
+        next: (response) => {
+          // Si el backend responde bien, activamos el mensaje de éxito en la web
+          this.formularioEnviadoExitosamente = true;
+          this.contactoForm.reset();
+          setTimeout(() => { this.formularioEnviadoExitosamente = false; }, 5000);
+        },
+        error: (err) => {
+          console.error('Error al persistir el contacto en la BD:', err);
+          Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'No se pudo conectar con el servidor para guardar el mensaje.',
+          });
+        }
+      });
     } else {
       this.contactoForm.markAllAsTouched();
     }
