@@ -29,10 +29,16 @@ interface Producto {
 export class LandingComponent implements OnInit {
   categoriaSeleccionada: string = 'todos';
   terminoBusqueda: string = '';
-  ordenSeleccionado: string = 'defecto'; // <-- NUEVA VARIABLE PARA EL ORDEN
+  ordenSeleccionado: string = 'defecto'; 
   contactoForm: FormGroup;
   formularioEnviadoExitosamente: boolean = false;
   productos: Producto[] = [];
+
+  // ==========================================
+  // VARIABLES PARA REQ11 (Manejo de estado del Backend)
+  // ==========================================
+  mensajeErrorBackend: string | null = null;
+  cargando: boolean = true;
 
   constructor(
     private fb: FormBuilder, 
@@ -51,11 +57,16 @@ export class LandingComponent implements OnInit {
     this.cargarProductos();
   }
 
-  // Se conecta al backend de Spring Boot y mapea la respuesta
-  // formateando los precios y protegiendo los datos nulos de stock
+  // ==========================================
+  // REQ11: MANEJO DE ÉXITO Y FRACASO
+  // ==========================================
   cargarProductos(): void {
+    this.mensajeErrorBackend = null;
+    this.cargando = true;
+
     this.apiService.obtenerProductos().subscribe({
       next: (data) => {
+        // ÉXITO: El backend respondió correctamente
         this.productos = data.map((item: any) => ({
           id: item.id,
           nombre: item.nombre,
@@ -65,9 +76,14 @@ export class LandingComponent implements OnInit {
           imagen: item.imagen || 'https://via.placeholder.com/150',
           stock: item.stock || 0
         }));
+        this.cargando = false;
       },
       error: (err) => {
+        // FRACASO: Backend detenido o error de red
         console.error('Error al conectar con el backend:', err);
+        this.mensajeErrorBackend = err.message || 'Error de conexión: El servidor backend no está respondiendo.';
+        this.productos = []; // Limpiamos la lista por seguridad
+        this.cargando = false;
       }
     });
   }
@@ -86,7 +102,7 @@ export class LandingComponent implements OnInit {
       filtrados = filtrados.filter(p => p.nombre.toLowerCase().includes(termino));
     }
 
-    // 3. NUEVO: Ordenamos según el precio
+    // 3. Ordenamos según el precio
     if (this.ordenSeleccionado === 'menor') {
       filtrados.sort((a, b) => a.precio - b.precio);
     } else if (this.ordenSeleccionado === 'mayor') {
