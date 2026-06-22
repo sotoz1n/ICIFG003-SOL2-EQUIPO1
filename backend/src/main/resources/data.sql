@@ -46,3 +46,27 @@ WHERE NOT EXISTS (SELECT 1 FROM producto WHERE id = 5);
 INSERT INTO producto (id, nombre, descripcion, precio, stock, imagen, id_categoria) 
 SELECT 6, 'Peine para Mascotas', 'Peine para el cuidado del pelaje de tu mascota', 8990, 20, 'https://jumbocl.vteximg.com.br/arquivos/ids/339891-250-250/Accesorio-Mascota-Corta-U%C3%B1as.jpg?v=638776440296670000', 2
 WHERE NOT EXISTS (SELECT 1 FROM producto WHERE id = 6);
+
+INSERT INTO producto (id, nombre, descripcion, precio, stock, imagen, id_categoria) 
+SELECT 7, 'Snack Perro', 'Snack nutritivo para perros', 6990, 30, 'https://unimarc.vtexassets.com/arquivos/ids/223858/000000000653237001-UN-01.jpg?v=637795019847930000', 1
+WHERE NOT EXISTS (SELECT 1 FROM producto WHERE id = 7);
+
+INSERT INTO producto (id, nombre, descripcion, precio, stock, imagen, id_categoria) 
+SELECT 8, 'Arena para Gatos', 'Arena sanitaria para gatos', 9870, 100, 'https://santaisabel.vtexassets.com/arquivos/ids/180526/Arena-sanitaria-para-gatos-4-kg.jpg?v=637662988302170000', 3
+WHERE NOT EXISTS (SELECT 1 FROM producto WHERE id = 8);
+
+INSERT INTO producto (id, nombre, descripcion, precio, stock, imagen, id_categoria) 
+SELECT 9, 'Bolso para Viajes', 'Bolso cómodo y funcional para viajes con tu mascota', 12990, 27, 'https://www.superzoo.cl/on/demandware.static/-/Sites-SuperZoo-master-catalog/default/dwadd161af/images/Asiento%20para%20coche%20de%20pie%20ida%20para%20perros.jpg', 2
+WHERE NOT EXISTS (SELECT 1 FROM producto WHERE id = 9);
+
+INSERT INTO producto (id, nombre, descripcion, precio, stock, imagen, id_categoria) 
+SELECT 10, 'Cuenco alimento mascotas', 'Cuenco para alimento de mascotas doble', 21990, 12, 'https://www.superzoo.cl/on/demandware.static/-/Sites-SuperZoo-master-catalog/default/dw315c35fb/images/Cuenco%20para%20mascotas%20de%20doble%20elevacion%20Altitude.jpg', 2
+WHERE NOT EXISTS (SELECT 1 FROM producto WHERE id = 10);
+
+INSERT INTO producto (id, nombre, descripcion, precio, stock, imagen, id_categoria) 
+SELECT 11, 'Cama para Mascotas', 'Cama cómoda y segura para tu mascota', 6990, 12, 'https://cl-dam-resizer.ecomm.cencosud.com/unsafe/adaptive-fit-in/3840x0/filters:quality(75)/easy/1396368/variant/images/d07b8eff-8169-442a-a31d-c69f0a2544d1/1396368-0000-001.jpg', 2
+WHERE NOT EXISTS (SELECT 1 FROM producto WHERE id = 11);
+
+INSERT INTO producto (id, nombre, descripcion, precio, stock, imagen, id_categoria) 
+SELECT 12, 'Bozal Perro', 'Bozal cómodo y seguro para perros', 4990, 30, 'https://www.tusmascotas.cl/wp-content/uploads/2020/10/Bozal-de-Perro-Reforzado-N-1.jpg', 1
+WHERE NOT EXISTS (SELECT 1 FROM producto WHERE id = 12);
