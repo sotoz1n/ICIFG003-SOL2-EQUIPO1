@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/contacto")
-@CrossOrigin(origins = "http://localhost:4200") // Permiso para que Angular conecte
+@CrossOrigin(origins = "*")
 public class ContactoController {
 
     // REQ10: Logger oficial configurado para registrar las acciones
