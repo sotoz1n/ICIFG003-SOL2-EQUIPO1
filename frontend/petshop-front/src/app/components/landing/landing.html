@@ -7,16 +7,18 @@
       <h2>Productos Destacados</h2>
     </header>
 
-    <div *ngIf="mensajeErrorBackend" class="alert alert-danger" style="background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; padding: 20px; border-radius: 8px; margin-bottom: 20px; text-align: center; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
-      <h3 style="margin-top: 0;"><strong>🛑 ¡Problema de Conexión!</strong></h3>
+    <div *ngIf="mensajeErrorBackend" class="alert alert-danger"
+      style="background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; padding: 20px; border-radius: 8px; margin-bottom: 20px; text-align: center; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+      <h3><strong>🛑 ¡Problema de Conexión!</strong></h3>
       <p style="font-size: 1.1em; margin-bottom: 5px;">{{ mensajeErrorBackend }}</p>
-      <small style="color: #491217;">Asegúrate de haber iniciado los contenedores de MySQL y Spring Boot con Docker Compose.</small>
+      <small style="color: #491217;">Asegúrate de haber iniciado los contenedores de MySQL y Spring Boot con Docker
+        Compose.</small>
     </div>
 
     <div *ngIf="cargando" style="text-align: center; padding: 40px; color: #3498db;">
       <h3>⏳ Cargando el catálogo de productos...</h3>
     </div>
-    
+
     <div class="filtros-container">
       <label for="category-filter">Filtrar por Categoría: </label>
       <select id="category-filter" class="category-select" [(ngModel)]="categoriaSeleccionada">
@@ -27,7 +29,8 @@
       </select>
 
       <label style="margin-left: 15px;">Buscar:</label>
-      <input type="text" class="category-select" [(ngModel)]="terminoBusqueda" placeholder="Ej: Correa, Hueso, Rascador...">
+      <input type="text" class="category-select" [(ngModel)]="terminoBusqueda"
+        placeholder="Ej: Correa, Hueso, Rascador...">
 
       <label style="margin-left: 15px;">Ordenar: </label>
       <select class="category-select" [(ngModel)]="ordenSeleccionado">
@@ -37,66 +40,117 @@
       </select>
     </div>
 
-    <div class="resultados-info" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; font-size: 0.95rem; color: #555;">
-      
+    <div class="resultados-info"
+      style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; font-size: 0.95rem; color: #555;">
+
       <span>Mostrando <strong>{{ productosFiltrados.length }}</strong> productos en el catálogo.</span>
 
-      <button *ngIf="categoriaSeleccionada !== 'todos' || terminoBusqueda !== '' || ordenSeleccionado !== 'defecto'" 
-              (click)="categoriaSeleccionada = 'todos'; terminoBusqueda = ''; ordenSeleccionado = 'defecto'" 
-              style="background: none; border: none; color: #e74c3c; cursor: pointer; text-decoration: underline; font-weight: bold;">
+      <button *ngIf="categoriaSeleccionada !== 'todos' || terminoBusqueda !== '' || ordenSeleccionado !== 'defecto'"
+        (click)="categoriaSeleccionada = 'todos'; terminoBusqueda = ''; ordenSeleccionado = 'defecto'"
+        style="background: none; border: none; color: #e74c3c; cursor: pointer; text-decoration: underline; font-weight: bold;">
         Limpiar todos los filtros ✖
       </button>
-      
+
     </div>
 
     <div *ngIf="!mensajeErrorBackend && !cargando" class="grilla-productos">
-      <app-producto 
-        *ngFor="let prod of productosFiltrados" 
-        [data]="prod" 
-        (agregar)="agregarAlCarrito($event)">
+      <app-producto *ngFor="let prod of productosFiltrados" [data]="prod" (agregar)="agregarAlCarrito($event)">
       </app-producto>
     </div>
 
-    <div *ngIf="!mensajeErrorBackend && !cargando && productosFiltrados.length === 0" style="text-align: center; padding: 40px; color: #7f8c8d;">
+    <div *ngIf="!mensajeErrorBackend && !cargando && productosFiltrados.length === 0"
+      style="text-align: center; padding: 40px; color: #7f8c8d;">
       <h3>😿 ¡Ups! No encontramos lo que buscas.</h3>
       <p>Intenta con otras palabras o limpia los filtros.</p>
-      <button (click)="terminoBusqueda = ''; categoriaSeleccionada = 'todos'; ordenSeleccionado = 'defecto'" class="btn-enviar" style="margin-top: 15px; width: auto; padding: 10px 20px;">
+      <button (click)="terminoBusqueda = ''; categoriaSeleccionada = 'todos'; ordenSeleccionado = 'defecto'"
+        class="btn-enviar" style="margin-top: 15px; width: auto; padding: 10px 20px;">
         Ver todos los productos
       </button>
     </div>
   </section>
 
-  <aside class="promociones-aside">
-    <div class="promo-header">
-      <h3>🔥 Promociones del Mes</h3>
+  <!-- Sección de Promociones Premium -->
+  <section class="promociones-seccion">
+    <div class="promociones-header-moderno">
+      <h2>Promociones</h2>
     </div>
-    
-    <div class="promo-cards-container">
-      <div class="promo-card">
-        <div class="promo-icon">💊</div>
-        <div class="promo-text">
-          <h4>Salud Preventiva</h4>
-          <p>Descuento del <strong>20%</strong> en alimentos de prescripción médica.</p>
+
+    <div class="promociones-grid-moderno">
+
+      <!-- Tarjeta 1: Cachorritos -->
+      <div class="promo-card-moderna card-purple">
+        <div class="promo-card-content">
+          <span class="promo-meta">DESCUENTOS PARA PAPÁ</span>
+          <h3 class="promo-title-cursive">de cachorritos</h3>
+          <div class="promo-divider">
+            <span class="line"></span>
+            <span class="promo-divider-icon">♥</span>
+            <span class="line"></span>
+          </div>
+          <p class="promo-desc">TODO LO QUE UN PUPPY NECESITA</p>
+          <p class="promo-desc-highlight">HASTA 30% OFF</p>
+        </div>
+        <div class="promo-img-container">
+          <img src="/images/promo_cachorritos.png" alt="Descuentos de cachorritos" class="promo-img">
         </div>
       </div>
 
-      <div class="promo-card">
-        <div class="promo-icon">✂️</div>
-        <div class="promo-text">
-          <h4>Martes de Belleza</h4>
-          <p>Peluquería canina con <strong>15%</strong> de descuento todos los martes.</p>
+      <!-- Tarjeta 2: Gatitos -->
+      <div class="promo-card-moderna card-cyan">
+        <div class="promo-card-content">
+          <span class="promo-meta">DESCUENTOS PARA PAPÁ</span>
+          <h3 class="promo-title-cursive">de mini gatitos</h3>
+          <div class="promo-divider">
+            <span class="line"></span>
+            <span class="promo-divider-icon">♥</span>
+            <span class="line"></span>
+          </div>
+          <p class="promo-desc">TODO LO QUE UN KITTEN NECESITA</p>
+          <p class="promo-desc-highlight">HASTA 30% OFF</p>
+        </div>
+        <div class="promo-img-container">
+          <img src="/images/promo_gatitos.png" alt="Descuentos de mini gatitos" class="promo-img">
         </div>
       </div>
 
-      <div class="promo-card">
-        <div class="promo-icon">🚚</div>
-        <div class="promo-text">
-          <h4>Envío Gratis</h4>
-          <p>Despacho a costo <strong>$0</strong> por compras superiores a $15.000.</p>
+      <!-- Tarjeta 3: Marca Nomade -->
+      <div class="promo-card-moderna card-yellow">
+        <div class="promo-card-content">
+          <span class="promo-meta">MARCA DESTACADA</span>
+          <h3 class="promo-title-cursive">nómade</h3>
+          <div class="promo-divider">
+            <span class="line"></span>
+            <span class="promo-divider-dot"></span>
+            <span class="line"></span>
+          </div>
+          <p class="promo-desc">SIEMPRE AL MEJOR PRECIO</p>
+          <p class="promo-desc-highlight">HASTA 30% OFF</p>
+        </div>
+        <div class="promo-img-container">
+          <img src="/images/promo_nomade.png" alt="Marca destacada Nómade" class="promo-img">
         </div>
       </div>
+
+      <!-- Tarjeta 4: Cama y Estar -->
+      <div class="promo-card-moderna card-violet">
+        <div class="promo-card-content">
+          <span class="promo-meta">DESCUENTOS EN</span>
+          <h3 class="promo-title-cursive">cama y estar</h3>
+          <div class="promo-divider">
+            <span class="line"></span>
+            <span class="promo-divider-dot"></span>
+            <span class="line"></span>
+          </div>
+          <p class="promo-desc">PARA QUE DUERMAN CÁLIDAMENTE</p>
+          <p class="promo-desc-highlight">HASTA 22% OFF</p>
+        </div>
+        <div class="promo-img-container">
+          <img src="/images/promo_camas.png" alt="Descuentos en cama y estar" class="promo-img">
+        </div>
+      </div>
+
     </div>
-  </aside>
+  </section>
 
 </main>
 
@@ -106,41 +160,51 @@
   <h2>Formulario de Contacto</h2>
   <p class="contact-subtitle">¿Tienes dudas o necesitas asesoría personalizada? Escríbenos.</p>
 
-  <app-mensaje 
-    *ngIf="formularioEnviadoExitosamente" 
-    tipo="success" 
+  <app-mensaje *ngIf="formularioEnviadoExitosamente" tipo="success"
     texto="¡Mensaje enviado con éxito! Nos pondremos en contacto a la brevedad.">
   </app-mensaje>
 
   <form [formGroup]="contactoForm" (ngSubmit)="enviarFormulario()" class="formulario-estilizado" novalidate>
-    
+
     <div class="grupo-form">
       <label for="nombre">Nombre Completo:</label>
-      <input type="text" id="nombre" formControlName="nombre" class="form-control" [ngClass]="{'is-invalid': contactoForm.get('nombre')?.touched && contactoForm.get('nombre')?.invalid}" placeholder="Ej: Juan Pérez">
-      <div class="error-message" *ngIf="contactoForm.get('nombre')?.touched && contactoForm.get('nombre')?.hasError('required')">
+      <input type="text" id="nombre" formControlName="nombre" class="form-control"
+        [ngClass]="{'is-invalid': contactoForm.get('nombre')?.touched && contactoForm.get('nombre')?.invalid}"
+        placeholder="Ej: Juan Pérez">
+      <div class="error-message"
+        *ngIf="contactoForm.get('nombre')?.touched && contactoForm.get('nombre')?.hasError('required')">
         El nombre completo es obligatorio.
       </div>
     </div>
 
     <div class="grupo-form">
       <label for="correo">Correo Electrónico:</label>
-      <input type="email" id="correo" formControlName="correo" class="form-control" [ngClass]="{'is-invalid': contactoForm.get('correo')?.touched && contactoForm.get('correo')?.invalid}" placeholder="ejemplo@correo.com">
-      <div class="error-message" *ngIf="contactoForm.get('correo')?.touched && contactoForm.get('correo')?.hasError('required')">
+      <input type="email" id="correo" formControlName="correo" class="form-control"
+        [ngClass]="{'is-invalid': contactoForm.get('correo')?.touched && contactoForm.get('correo')?.invalid}"
+        placeholder="ejemplo@correo.com">
+      <div class="error-message"
+        *ngIf="contactoForm.get('correo')?.touched && contactoForm.get('correo')?.hasError('required')">
         El correo electrónico es obligatorio.
       </div>
-      <div class="error-message" *ngIf="contactoForm.get('correo')?.touched && contactoForm.get('correo')?.hasError('email')">
+      <div class="error-message"
+        *ngIf="contactoForm.get('correo')?.touched && contactoForm.get('correo')?.hasError('email')">
         Por favor, introduce una dirección de correo válida.
       </div>
     </div>
 
     <div class="grupo-form">
       <label for="mensaje">Mensaje o Comentario:</label>
-      <textarea id="mensaje" formControlName="mensaje" rows="5" class="form-control" [ngClass]="{'is-invalid': contactoForm.get('mensaje')?.touched && contactoForm.get('mensaje')?.invalid}" placeholder="Escribe al menos 20 caracteres..."></textarea>
-      <div class="error-message" *ngIf="contactoForm.get('mensaje')?.touched && contactoForm.get('mensaje')?.hasError('required')">
+      <textarea id="mensaje" formControlName="mensaje" rows="5" class="form-control"
+        [ngClass]="{'is-invalid': contactoForm.get('mensaje')?.touched && contactoForm.get('mensaje')?.invalid}"
+        placeholder="Escribe al menos 20 caracteres..."></textarea>
+      <div class="error-message"
+        *ngIf="contactoForm.get('mensaje')?.touched && contactoForm.get('mensaje')?.hasError('required')">
         El mensaje es obligatorio.
       </div>
-      <div class="error-message" *ngIf="contactoForm.get('mensaje')?.touched && contactoForm.get('mensaje')?.hasError('minlength')">
-        El mensaje debe contener al menos 20 caracteres (llevas {{ contactoForm.get('mensaje')?.value?.length || 0 }} de 20 requeridos).
+      <div class="error-message"
+        *ngIf="contactoForm.get('mensaje')?.touched && contactoForm.get('mensaje')?.hasError('minlength')">
+        El mensaje debe contener al menos 20 caracteres (llevas {{ contactoForm.get('mensaje')?.value?.length || 0 }} de
+        20 requeridos).
       </div>
     </div>
 

@@ -1,9 +1,9 @@
 /* Contenedor principal usando CSS Grid */
 .layout-principal {
   display: grid;
-  grid-template-columns: 3fr 1fr; /* El main toma el 75%, el aside el 25% */
+  grid-template-columns: 4fr 1fr; /* El main toma el 80%, el de promociones el 20% */
   gap: 30px;
-  max-width: 1200px;
+  max-width: 1550px; /* Aumentado de 1200px a 1550px para alinear más a la derecha en pantallas grandes */
   margin: 40px auto;
   padding: 0 20px;
 }
@@ -22,28 +22,10 @@
   gap: 20px;
 }
 
-/* Barra lateral de promociones (Aside) */
-.promociones-aside {
-  background-color: #f8f9fa;
-  border-radius: 12px;
-  padding: 20px;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-  height: fit-content; /* Para que no se estire innecesariamente */
-}
-
 /* Media Queries para diseño Responsive */
 @media (max-width: 768px) {
-  .layout-principal {
-    grid-template-columns: 1fr; /* Layout en 1 columna */
-  }
-  
   .grilla-productos {
     grid-template-columns: 1fr; /* Obliga a los productos a 1 sola columna como pide la rúbrica */
-  }
-  
-  .promociones-aside {
-    grid-row: 2; /* Obliga a la barra lateral a irse al fondo en móviles */
-    margin-top: 20px;
   }
 }
 
@@ -231,65 +213,220 @@
 }
 
 /* =========================================
-   BARRA LATERAL DE PROMOCIONES (ASIDE)
+   SECCIÓN DE PROMOCIONES PREMIUM
    ========================================= */
-.promociones-aside {
-  background: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
-  border-radius: 12px;
-  padding: 25px;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-  height: fit-content;
-  border-top: 5px solid #e74c3c; /* Borde rojo superior para destacar la zona de ofertas */
+/* Estilos para el contenedor de la sección de promociones */
+.promociones-seccion {
+  width: 100%;
 }
 
-.promo-header h3 {
-  margin-top: 0;
+.promociones-header-moderno {
+  margin-bottom: 20px;
+  text-align: left;
+}
+
+.promociones-header-moderno h2 {
+  font-size: 1.6rem;
   color: #2c3e50;
-  font-size: 1.4rem;
+  margin: 0 0 10px 0;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 800;
+  letter-spacing: -0.5px;
   border-bottom: 2px solid #eaeaea;
   padding-bottom: 10px;
-  margin-bottom: 20px;
 }
 
-.promo-cards-container {
+.promociones-grid-moderno {
   display: flex;
   flex-direction: column;
-  gap: 15px; /* Separación entre las tarjetas de promo */
+  gap: 20px;
 }
 
-.promo-card {
+/* Media Queries para diseño Responsive */
+@media (max-width: 992px) {
+  .layout-principal {
+    grid-template-columns: 1fr; /* Layout en 1 columna para tablets/móviles */
+    gap: 40px;
+  }
+
+  .promociones-seccion {
+    order: 2; /* Envía la sección de promociones abajo */
+  }
+
+  .promociones-header-moderno h2 {
+    font-size: 2rem;
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+
+  .promociones-grid-moderno {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* 2 columnas en tablets */
+    gap: 20px;
+  }
+}
+
+@media (max-width: 576px) {
+  .promociones-grid-moderno {
+    grid-template-columns: 1fr; /* 1 columna en móviles */
+  }
+}
+
+/* Tarjeta de promoción moderna */
+.promo-card-moderna {
+  position: relative;
+  aspect-ratio: 1 / 1;
+  border-radius: 16px;
+  overflow: hidden;
   display: flex;
-  align-items: flex-start;
-  background: white;
-  padding: 15px;
-  border-radius: 8px;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.03);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-  border-left: 4px solid #3498db; /* Borde azul a la izquierda */
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 30px 20px 20px 20px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
+  transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1), box-shadow 0.3s ease;
+  z-index: 1;
+  text-align: center;
+  cursor: pointer;
 }
 
-.promo-card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 5px 12px rgba(0,0,0,0.1);
+.promo-card-moderna:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
 }
 
-.promo-icon {
-  font-size: 1.8rem;
-  margin-right: 15px;
-  line-height: 1;
+/* Imagen de fondo promocional */
+.promo-img-container {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 55%;
+  overflow: hidden;
+  z-index: -1;
 }
 
-.promo-text h4 {
-  margin: 0 0 5px 0;
-  color: #2980b9;
-  font-size: 1.05rem;
+.promo-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s ease;
 }
 
-.promo-text p {
+.promo-card-moderna:hover .promo-img {
+  transform: scale(1.08);
+}
+
+/* Colores de fondo / gradientes correspondientes a cada tarjeta */
+.card-purple {
+  background-color: #a862ea;
+  background-image: linear-gradient(to bottom, #a862ea 0%, #a862ea 45%, rgba(168, 98, 234, 0.1) 85%, rgba(168, 98, 234, 0) 100%);
+}
+
+.card-cyan {
+  background-color: #1abc9c;
+  background-image: linear-gradient(to bottom, #1abc9c 0%, #1abc9c 45%, rgba(26, 188, 156, 0.1) 85%, rgba(26, 188, 156, 0) 100%);
+}
+
+.card-yellow {
+  background-color: #f39c12;
+  background-image: linear-gradient(to bottom, #f39c12 0%, #f39c12 45%, rgba(243, 156, 18, 0.1) 85%, rgba(243, 156, 18, 0) 100%);
+}
+
+.card-violet {
+  background-color: #9b59b6;
+  background-image: linear-gradient(to bottom, #9b59b6 0%, #9b59b6 45%, rgba(155, 89, 182, 0.1) 85%, rgba(155, 89, 182, 0) 100%);
+}
+
+/* Estilos de contenido */
+.promo-card-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.promo-meta {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.9);
+  letter-spacing: 1.5px;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+  margin-bottom: 2px;
+}
+
+.promo-title-cursive {
+  font-family: 'Caveat', cursive;
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #ffffff;
   margin: 0;
+  line-height: 1;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.15);
+}
+
+.promo-divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  margin: 8px 0;
+}
+
+.promo-divider .line {
+  flex-grow: 1;
+  height: 1px;
+  background-color: rgba(255, 255, 255, 0.6);
+  max-width: 40px;
+}
+
+.promo-divider-icon {
+  color: #ffffff;
   font-size: 0.9rem;
-  color: #555;
-  line-height: 1.4;
+  margin: 0 8px;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+}
+
+.promo-divider-dot {
+  width: 5px;
+  height: 5px;
+  background-color: #ffffff;
+  border-radius: 50%;
+  margin: 0 8px;
+}
+
+.promo-desc {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0;
+  letter-spacing: 0.5px;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+}
+
+/* Subtítulo destacado de descuento */
+.promo-desc-highlight {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.8rem;
+  font-weight: 800;
+  color: #ffffff;
+  background-color: rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  padding: 4px 10px;
+  border-radius: 20px;
+  margin-top: 10px;
+  letter-spacing: 1px;
+  text-shadow: none;
+  display: inline-block;
+  backdrop-filter: blur(4px);
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.promo-card-moderna:hover .promo-desc-highlight {
+  background-color: rgba(255, 255, 255, 0.35);
+  transform: scale(1.05);
 }
 
 /* =========================================
