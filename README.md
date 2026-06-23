@@ -1,4 +1,4 @@
-# PetShop Online - Proyecto Solemne N°2
+# PetShop Online
 
 Equipo 1: Franco Sepúlveda, Benjamín Sepúlveda, Benjamín Soto.
 
