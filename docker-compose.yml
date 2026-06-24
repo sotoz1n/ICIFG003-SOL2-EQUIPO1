@@ -1,0 +1,38 @@
+services:
+  # Servidor de Base de Datos
+  base_datos:
+    image: mysql:8.0
+    container_name: petshop_db_container
+    environment:
+      MYSQL_DATABASE: petshop_db
+      MYSQL_ROOT_PASSWORD: 1234
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+  # Servidor Backend (Spring Boot)
+  backend:
+    build: ./backend
+    container_name: petshop_backend_container
+    ports:
+      - "8080:8080"
+    depends_on:
+      - base_datos
+    restart: on-failure
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://base_datos:3306/petshop_db?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: 1234
+
+  # Servidor Frontend (Angular + Nginx)
+  frontend:
+    build: ./frontend/petshop-front
+    container_name: petshop_frontend_container
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+
+volumes:
+  mysql_data:
